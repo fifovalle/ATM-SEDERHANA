@@ -32,12 +32,12 @@
                 <section id="account-login" class="flexbox-container">
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0 text-center d-none d-md-block">
-                            <div class="border-grey border-lighten-3 m-0 box-shadow-0 card-account-left height-450">
-                                <h1 style="color: white; padding-top: 210px; font-weight: bold">KELOMPOK 4</h1>
+                            <div class="border-grey border-lighten-3 m-0 box-shadow-0 card-account-left height-500">
+                                <h1 style="color: white; padding-top: 250px; font-weight: bold">KELOMPOK 4</h1>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0">
-                            <div class="card border-grey border-lighten-3 m-0 box-shadow-0 card-account-right height-450">
+                            <div class="card border-grey border-lighten-3 m-0 box-shadow-0 card-account-right height-500">
                                 <div class="card-content">
                                     <div class="card-body p-3">
                                         <p class="text-center h5 text-capitalize">Mulai Dengan ATM</p>
@@ -55,6 +55,16 @@
                                                 <input type="number" class="form-control" id="nabung" placeholder="Penabungan" required="" autofocus="" name="saldo_rekening">
                                                 <label for="nabung">Penabungan</label>
                                             </fieldset>
+                                            <fieldset class="form-label-group">
+                                                <select name="" id="" class="form-control">
+                                                    <option value="" selected>Pilih Jenis Kartu ATM</option>
+                                                    <option value="">Gold</option>
+                                                    <option value="">Silver</option>
+                                                    <option value="">Premium</option>
+                                                </select>
+                                            </fieldset>
+                                            <input type="hidden" class="form-control" name="saldo_rekening">
+                                            <input type="hidden" class="form-control" name="lokasi">
                                             <div class="form-group row">
                                                 <div class="col-12 text-center text-sm-left">
                                                     <fieldset>
