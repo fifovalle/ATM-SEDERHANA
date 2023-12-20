@@ -42,7 +42,7 @@
                                     <div class="card-body p-3">
                                         <p class="text-center h5 text-capitalize">Mulai Dengan ATM</p>
                                         <p class="mb-3 text-center">Silahkan Buat Akun Anda</p>
-                                        <form class="form-horizontal form-signin" action="index.html">
+                                        <form class="form-horizontal form-signin" action="../config/register.php" method="POST">
                                             <fieldset class="form-label-group">
                                                 <input type="text" class="form-control" id="no-rekening" placeholder="No Rekening Anda" required="" autofocus="" name="no_rekening">
                                                 <label for="no-rekening">No Rekening Anda</label>
@@ -56,24 +56,26 @@
                                                 <label for="nabung">Penabungan</label>
                                             </fieldset>
                                             <fieldset class="form-label-group">
-                                                <select name="" id="" class="form-control">
+                                                <select name="jenis_atm" id="" class="form-control">
                                                     <option value="" selected>Pilih Jenis Kartu ATM</option>
-                                                    <option value="">Gold</option>
-                                                    <option value="">Silver</option>
-                                                    <option value="">Premium</option>
+                                                    <option value="GOLD">Gold</option>
+                                                    <option value="SILVER">Silver</option>
+                                                    <option value="PREMIUM">Premium</option>
                                                 </select>
                                             </fieldset>
-                                            <input type="hidden" class="form-control" name="saldo_rekening">
+                                            <input type="hidden" class="form-control" name="saldo_awal">
+                                            <input type="hidden" class="form-control" name="tanggal_pembuatan_atm">
+                                            <input type="hidden" class="form-control" name="jumlah_uang_yang_tersedia">
                                             <input type="hidden" class="form-control" name="lokasi">
                                             <div class="form-group row">
                                                 <div class="col-12 text-center text-sm-left">
                                                     <fieldset>
-                                                        <input type="checkbox" id="remember-me" class="chk-remember">
+                                                        <input type="checkbox" id="remember-me" class="chk-remember" name="setuju_syarat">
                                                         <label for="remember-me"> Saya setuju dengan syarat ATM</label>
                                                     </fieldset>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn-gradient-primary btn-block my-1" name="masuk">Daftar</button>
+                                            <button type="submit" class="btn-gradient-primary btn-block my-1" name="daftar">Daftar</button>
                                             <p class="text-center"><a href="login.php" class="card-link">Masuk</a></p>
                                         </form>
                                     </div>

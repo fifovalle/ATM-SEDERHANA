@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2023 at 08:19 AM
+-- Generation Time: Dec 20, 2023 at 11:38 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -39,20 +39,6 @@ CREATE TABLE `atm` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `layanan`
---
-
-CREATE TABLE `layanan` (
-  `ID_LAYANAN` int(11) NOT NULL,
-  `ID_ATM` int(11) NOT NULL,
-  `JENIS_LAYANAN` varchar(225) NOT NULL,
-  `TANGGAL_LAYANAN` datetime NOT NULL,
-  `BIAYA_LAYANAN` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `nasabah`
 --
 
@@ -60,6 +46,7 @@ CREATE TABLE `nasabah` (
   `ID_NASABAH` int(11) NOT NULL,
   `NAMA` varchar(250) NOT NULL,
   `NO_REKENING` int(16) NOT NULL,
+  `KATA_SANDI` varchar(50) NOT NULL,
   `SALDO_REKENING` int(10) NOT NULL,
   `ALAMAT_NASABAH` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -74,7 +61,6 @@ CREATE TABLE `transaksi` (
   `ID_TRANSAKSI` int(11) NOT NULL,
   `ID_ATM` int(11) NOT NULL,
   `ID_NASABAH` int(11) NOT NULL,
-  `ID_LAYANAN` int(11) NOT NULL,
   `JENIS_TRANSAKSI` enum('TRANSFER','TARIK_TUNAI','MENABUNG') NOT NULL,
   `JUMLAH_TRANSAKSI` int(10) NOT NULL,
   `TANGGAL_DAN_WAKTU_TRANSAKSI` datetime NOT NULL
@@ -91,13 +77,6 @@ ALTER TABLE `atm`
   ADD PRIMARY KEY (`ID_ATM`);
 
 --
--- Indexes for table `layanan`
---
-ALTER TABLE `layanan`
-  ADD PRIMARY KEY (`ID_LAYANAN`),
-  ADD UNIQUE KEY `ID_ATM` (`ID_ATM`);
-
---
 -- Indexes for table `nasabah`
 --
 ALTER TABLE `nasabah`
@@ -109,8 +88,29 @@ ALTER TABLE `nasabah`
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`ID_TRANSAKSI`),
   ADD UNIQUE KEY `ID_ATM` (`ID_ATM`),
-  ADD UNIQUE KEY `ID_NASABAH` (`ID_NASABAH`),
-  ADD UNIQUE KEY `ID_LAYANAN` (`ID_LAYANAN`);
+  ADD UNIQUE KEY `ID_NASABAH` (`ID_NASABAH`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `atm`
+--
+ALTER TABLE `atm`
+  MODIFY `ID_ATM` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `nasabah`
+--
+ALTER TABLE `nasabah`
+  MODIFY `ID_NASABAH` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `ID_TRANSAKSI` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -121,8 +121,7 @@ ALTER TABLE `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`ID_ATM`) REFERENCES `atm` (`ID_ATM`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`ID_NASABAH`) REFERENCES `nasabah` (`ID_NASABAH`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaksi_ibfk_3` FOREIGN KEY (`ID_LAYANAN`) REFERENCES `layanan` (`ID_LAYANAN`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`ID_NASABAH`) REFERENCES `nasabah` (`ID_NASABAH`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
