@@ -1,4 +1,6 @@
-<!-- - var bodyCustom = 'bg-blue bg-lighten-2' // Use any color palette class-->
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 
@@ -21,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="../app-assets/vendors/css/cryptocoins/cryptocoins.css">
     <link rel="stylesheet" type="text/css" href="../app-assets/css/pages/account-login.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body class="vertical-layout vertical-compact-menu 1-column  bg-full-screen-image menu-expanded blank-page blank-page" data-open="click" data-menu="vertical-compact-menu" data-col="1-column">
@@ -65,6 +68,10 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php
+    include "../partials/alert.php";
+    ?>
     <script src="../app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
     <script src="../app-assets/vendors/js/forms/icheck/icheck.min.js" type="text/javascript"></script>
     <script src="../app-assets/js/core/app-menu.js" type="text/javascript"></script>

@@ -16,12 +16,12 @@
                     <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="pages/wallet.php"><i class="ficon icon-wallet"></i></a></li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <span class="avatar avatar-online"><img src="http://localhost/TUBES%20BASIS%20DATA/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar">
-                            </span><span class="mr-1">Rp<span class="user-name text-bold-700">Saldo</span></span></a>
+                            </span><span class="mr-1">Rp<span class="user-name text-bold-700"><?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING']) : '0'; ?></span></span></a>
                         <div class="dropdown-menu dropdown-menu-right"> <a class="dropdown-item" href="#"><i class="ft-award"></i>Nama Nasabah</a>
                             <div class="dropdown-divider"></div><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/account.php"><i class="ft-user"></i> Akun</a><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/wallet.php"><i class="icon-wallet"></i> Dompet
                                 Saya</a><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/transactions.php"><i class="ft-check-square"></i>
                                 Transaksi </a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="config"><i class="ft-power"></i> Keluar</a>
+                            <div class="dropdown-divider"></div><a class="dropdown-item" href="config/logout.php"><i class="ft-power"></i> Keluar</a>
                         </div>
                     </li>
                 </ul>
