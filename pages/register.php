@@ -32,24 +32,28 @@
                 <section id="account-login" class="flexbox-container">
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0 text-center d-none d-md-block">
-                            <div class="border-grey border-lighten-3 m-0 box-shadow-0 card-account-left height-400">
-                                <h1 style="color: white; padding-top: 175px; font-weight: bold">KELOMPOK 4</h1>
+                            <div class="border-grey border-lighten-3 m-0 box-shadow-0 card-account-left height-450">
+                                <h1 style="color: white; padding-top: 210px; font-weight: bold">KELOMPOK 4</h1>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0">
-                            <div class="card border-grey border-lighten-3 m-0 box-shadow-0 card-account-right height-400">
+                            <div class="card border-grey border-lighten-3 m-0 box-shadow-0 card-account-right height-450">
                                 <div class="card-content">
                                     <div class="card-body p-3">
                                         <p class="text-center h5 text-capitalize">Mulai Dengan ATM</p>
                                         <p class="mb-3 text-center">Silahkan Buat Akun Anda</p>
                                         <form class="form-horizontal form-signin" action="index.html">
                                             <fieldset class="form-label-group">
-                                                <input type="text" class="form-control" id="user-name" placeholder="No Rekening Anda" required="" autofocus="" name="no_rekening">
-                                                <label for="user-name">No Rekening Anda</label>
+                                                <input type="text" class="form-control" id="no-rekening" placeholder="No Rekening Anda" required="" autofocus="" name="no_rekening">
+                                                <label for="no-rekening">No Rekening Anda</label>
                                             </fieldset>
                                             <fieldset class="form-label-group">
-                                                <input type="password" class="form-control" id="user-password" placeholder="Kata Sandi Anda" required="" autofocus="" name="kata_sandi">
-                                                <label for="user-password">Kata Sandi Anda</label>
+                                                <input type="password" class="form-control" id="kata-sandi" placeholder="Kata Sandi Anda" required="" autofocus="" name="kata_sandi">
+                                                <label for="kata-sandi">Kata Sandi Anda</label>
+                                            </fieldset>
+                                            <fieldset class="form-label-group">
+                                                <input type="number" class="form-control" id="nabung" placeholder="Penabungan" required="" autofocus="" name="saldo_rekening">
+                                                <label for="nabung">Penabungan</label>
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-12 text-center text-sm-left">
