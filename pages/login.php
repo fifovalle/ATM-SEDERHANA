@@ -42,7 +42,7 @@
                                     <div class="card-body p-3">
                                         <p class="text-center h5 text-capitalize">Selamat Datang</p>
                                         <p class="mb-3 text-center">Di ATM Sederhana</p>
-                                        <form class="form-horizontal form-signin" action="index.html">
+                                        <form class="form-horizontal form-signin" action="../config/login.php" method="post">
                                             <fieldset class="form-label-group">
                                                 <input type="text" class="form-control" id="user-name" placeholder="No Rekening Anda" required="" autofocus="" name="no_rekening">
                                                 <label for="user-name">No Rekening Anda</label>
@@ -52,13 +52,6 @@
                                                 <label for="user-password">Kata Sandi Anda</label>
                                             </fieldset>
                                             <div class="form-group row">
-                                                <div class="col-md-6 col-12 text-center text-sm-left">
-                                                    <fieldset>
-                                                        <input type="checkbox" id="remember-me" class="chk-remember">
-                                                        <label for="remember-me"> Ingat Saya</label>
-                                                    </fieldset>
-                                                </div>
-                                                <div class="col-md-6 col-12 float-sm-left text-center text-sm-right"><a href="#" class="card-link">Lupa Sandi?</a></div>
                                             </div>
                                             <button type="submit" class="btn-gradient-primary btn-block my-1" name="masuk">Masuk</button>
                                             <p class="text-center"><a href="register.php" class="card-link">Daftar</a></p>
