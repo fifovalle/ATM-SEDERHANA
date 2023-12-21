@@ -1,3 +1,14 @@
+<?php
+include('../config/connection.php');
+if (!isset($_SESSION['ID_NASABAH'])) {
+  $_SESSION['alert'] = array(
+    'type' => 'warning',
+    'message' => 'Silahkan daftar terlebih dahulu.'
+  );
+  header("Location: login.php");
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 

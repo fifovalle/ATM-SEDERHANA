@@ -1,7 +1,14 @@
 <?php
 include('../config/connection.php');
+if (!isset($_SESSION['ID_NASABAH'])) {
+  $_SESSION['alert'] = array(
+    'type' => 'warning',
+    'message' => 'Silahkan daftar terlebih dahulu.'
+  );
+  header("Location: login.php");
+  exit();
+}
 ?>
-
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 
@@ -22,6 +29,7 @@ include('../config/connection.php');
   <link rel="stylesheet" type="text/css" href="../app-assets/vendors/css/cryptocoins/cryptocoins.css">
   <link rel="stylesheet" type="text/css" href="../app-assets/css/pages/transactions.css">
   <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
@@ -73,49 +81,49 @@ include('../config/connection.php');
                             <p class="text-bold-700 text-uppercase mb-0">Pembuatan Rekening</p>
                             <?php echo isset($_SESSION['TANGGAL_PEMBUATAN_ATM']) ? $_SESSION['TANGGAL_PEMBUATAN_ATM'] : 'Belum Memiliki ATM'; ?>
                           </div>
+                          <?php
+                          if (isset($_SESSION['ID_NASABAH'])) {
+                            $id_nasabah = $_SESSION['ID_NASABAH'];
+                            $query = "SELECT * FROM `nasabah` WHERE `ID_NASABAH` = '$id_nasabah'";
+                            $result = mysqli_query($koneksi, $query);
+                            if ($result) {
+                              $data_nasabah = mysqli_fetch_assoc($result);
+                              $nama_nasabah = isset($data_nasabah['NAMA']) ? $data_nasabah['NAMA'] : '';
+                              $alamat_nasabah = isset($data_nasabah['ALAMAT_NASABAH']) ? $data_nasabah['ALAMAT_NASABAH'] : '';
+                              $kata_sandi_nasabah = isset($data_nasabah['KATA_SANDI']) ? $data_nasabah['KATA_SANDI'] : '';
+                            } else {
+                              echo "Terjadi kesalahan saat mengambil data nasabah.";
+                            }
+                          }
+                          mysqli_close($koneksi);
+                          ?>
                           <div class="col-12 col-md-4">
                             <p class="text-bold-700 text-uppercase mb-0">Alamat</p>
-                            <?php echo isset($_SESSION['ALAMAT_NASABAH']) ? $_SESSION['ALAMAT_NASABAH'] : 'Belum Mengatur Alamat'; ?>
+                            <?php echo $alamat_nasabah; ?>
                           </div>
                         </div>
                         <hr />
-                        <?php
-                        if (isset($_SESSION['ID_NASABAH'])) {
-                          $id_nasabah = $_SESSION['ID_NASABAH'];
-                          $query = "SELECT * FROM `nasabah` WHERE `ID_NASABAH` = '$id_nasabah'";
-                          $result = mysqli_query($koneksi, $query);
-                          if ($result) {
-                            $data_nasabah = mysqli_fetch_assoc($result);
-                            $nama_nasabah = isset($data_nasabah['NAMA']) ? $data_nasabah['NAMA'] : '';
-                            $alamat_nasabah = isset($data_nasabah['ALAMAT_NASABAH']) ? $data_nasabah['ALAMAT_NASABAH'] : '';
-                            $kata_sandi_nasabah = isset($data_nasabah['KATA_SANDI']) ? $data_nasabah['KATA_SANDI'] : '';
-                          } else {
-                            echo "Terjadi kesalahan saat mengambil data nasabah.";
-                          }
-                        }
-                        mysqli_close($koneksi);
-                        ?>
-                        <form class="form-horizontal form-user-profile row mt-2" action="" method="post">
+                        <form class="form-horizontal form-user-profile row mt-2" action="../config/edit-account.php" method="post">
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="first-name" placeholder="Nama Nasabah" value="<?php echo $nama_nasabah; ?>" required autofocus>
+                              <input type="text" class="form-control" id="first-name" placeholder="Nama Nasabah" name="nama" value="<?php echo $nama_nasabah; ?>" required autofocus>
                               <label for="first-name">Nama Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" placeholder="Alamat Nasabah" class="form-control" id="user-name" value="<?php echo $alamat_nasabah; ?>" required autofocus>
+                              <input type="text" name="alamat_nasabah" placeholder="Alamat Nasabah" class="form-control" id="user-name" value="<?php echo $alamat_nasabah; ?>" required autofocus>
                               <label for="user-name">Alamat Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="new-password" placeholder="Enter Password" value="<?php echo $kata_sandi_nasabah; ?>" required autofocus>
+                              <input type="text" name="kata_sandi" class="form-control" id="new-password" placeholder="Enter Password" value="<?php echo $kata_sandi_nasabah; ?>" required autofocus>
                               <label for="new-password">Kata Sandi Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-12 text-right">
-                            <button type="submit" class="btn-gradient-primary my-1">Simpan</button>
+                            <button type="submit" name="simpan" class="btn-gradient-primary my-1">Simpan</button>
                           </div>
                         </form>
                       </div>
@@ -159,6 +167,10 @@ include('../config/connection.php');
   <!-- FOOTER -->
   <?php include '../partials/footer.php' ?>
   <!-- FOOTER -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <?php
+  include "../partials/alert.php";
+  ?>
   <script src="../app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
   <script src="../app-assets/vendors/js/forms/toggle/switchery.min.js" type="text/javascript"></script>
   <script src="../app-assets/js/core/app-menu.js" type="text/javascript"></script>
