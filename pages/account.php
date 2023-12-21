@@ -1,3 +1,7 @@
+<?php
+include('../config/connection.php');
+?>
+
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 
@@ -45,7 +49,7 @@
           </div>
         </div>
         <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="wallet.html">Layanan</a></div>
+          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="wallet.php">Dompet Saya</a></div>
         </div>
       </div>
       <div class="content-body">
@@ -67,49 +71,47 @@
                           </div>
                           <div class="col-12 col-md-4">
                             <p class="text-bold-700 text-uppercase mb-0">Pembuatan Rekening</p>
-                            <p class="mb-0">2018-04-30 16:44:04</p>
+                            <?php echo isset($_SESSION['TANGGAL_PEMBUATAN_ATM']) ? $_SESSION['TANGGAL_PEMBUATAN_ATM'] : 'Belum Memiliki ATM'; ?>
                           </div>
                           <div class="col-12 col-md-4">
-                            <p class="text-bold-700 text-uppercase mb-0">IP</p>
-                            <p class="mb-0">43.228.229.172</p>
+                            <p class="text-bold-700 text-uppercase mb-0">Alamat</p>
+                            <?php echo isset($_SESSION['ALAMAT_NASABAH']) ? $_SESSION['ALAMAT_NASABAH'] : 'Belum Mengatur Alamat'; ?>
                           </div>
                         </div>
                         <hr />
-                        <form class="form-horizontal form-user-profile row mt-2" action="index.html">
+                        <?php
+                        if (isset($_SESSION['ID_NASABAH'])) {
+                          $id_nasabah = $_SESSION['ID_NASABAH'];
+                          $query = "SELECT * FROM `nasabah` WHERE `ID_NASABAH` = '$id_nasabah'";
+                          $result = mysqli_query($koneksi, $query);
+                          if ($result) {
+                            $data_nasabah = mysqli_fetch_assoc($result);
+                            $nama_nasabah = isset($data_nasabah['NAMA']) ? $data_nasabah['NAMA'] : '';
+                            $alamat_nasabah = isset($data_nasabah['ALAMAT_NASABAH']) ? $data_nasabah['ALAMAT_NASABAH'] : '';
+                            $kata_sandi_nasabah = isset($data_nasabah['KATA_SANDI']) ? $data_nasabah['KATA_SANDI'] : '';
+                          } else {
+                            echo "Terjadi kesalahan saat mengambil data nasabah.";
+                          }
+                        }
+                        mysqli_close($koneksi);
+                        ?>
+                        <form class="form-horizontal form-user-profile row mt-2" action="" method="post">
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="first-name" value="John" required="" autofocus="">
-                              <label for="first-name">Nama Awal</label>
+                              <input type="text" class="form-control" id="first-name" placeholder="Nama Nasabah" value="<?php echo $nama_nasabah; ?>" required autofocus>
+                              <label for="first-name">Nama Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="last-name" value="Doe" required="" autofocus="">
-                              <label for="last-name">Nama Akhir</label>
+                              <input type="text" placeholder="Alamat Nasabah" class="form-control" id="user-name" value="<?php echo $alamat_nasabah; ?>" required autofocus>
+                              <label for="user-name">Alamat Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="user-name" value="johndoe9016" required="" autofocus="">
-                              <label for="user-name">Nama Pengguna</label>
-                            </fieldset>
-                          </div>
-                          <div class="col-6">
-                            <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="email-address" value="johndoe9016@gmail.com" required="" autofocus="">
-                              <label for="email-address">Email</label>
-                            </fieldset>
-                          </div>
-                          <div class="col-6">
-                            <fieldset class="form-label-group">
-                              <input type="password" class="form-control" id="old-password" placeholder="Enter Password" required="" autofocus="">
-                              <label for="old-password">Sandi Lama</label>
-                            </fieldset>
-                          </div>
-                          <div class="col-6">
-                            <fieldset class="form-label-group">
-                              <input type="password" class="form-control" id="new-password" placeholder="Enter Password" required="" autofocus="">
-                              <label for="new-password">Sandi Baru</label>
+                              <input type="text" class="form-control" id="new-password" placeholder="Enter Password" value="<?php echo $kata_sandi_nasabah; ?>" required autofocus>
+                              <label for="new-password">Kata Sandi Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-12 text-right">
@@ -135,7 +137,7 @@
                       <i class="icon-layers font-large-3 bg-warning bg-glow white rounded-circle p-3 d-inline-block"></i>
                     </div>
                   </div>
-                  <h3 class="text-center">Rp Saldo Anda</h3>
+                  <h3 class="text-center">Rp <?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING'], 0, ',', '.') : '0'; ?></h3>
                 </div>
                 <div class="table-responsive">
                   <table class="table table-de mb-0">
@@ -143,22 +145,6 @@
                       <tr>
                         <td>CIC Token</td>
                         <td><i class="icon-layers"></i> 3,258 CIC</td>
-                      </tr>
-                      <tr>
-                        <td>CIC Referral</td>
-                        <td><i class="icon-layers"></i> 200.88 CIC</td>
-                      </tr>
-                      <tr>
-                        <td>CIC Price</td>
-                        <td><i class="cc BTC-alt"></i> 0.0001 BTC</td>
-                      </tr>
-                      <tr>
-                        <td>Raised BTC</td>
-                        <td><i class="cc BTC-alt"></i> 2154 BTC</td>
-                      </tr>
-                      <tr>
-                        <td>Raised USD</td>
-                        <td><i class="la la-dollar"></i> 4.52 M</td>
                       </tr>
                     </tbody>
                   </table>
@@ -170,7 +156,6 @@
       </div>
     </div>
   </div>
-
   <!-- FOOTER -->
   <?php include '../partials/footer.php' ?>
   <!-- FOOTER -->

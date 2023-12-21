@@ -19,10 +19,13 @@
                             </span><span class="mr-1">Rp<span class="user-name text-bold-700"><?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING']) : '0'; ?></span></span></a>
                         <div class="dropdown-menu dropdown-menu-right"> <a class="dropdown-item" href="#"><i class="ft-award"></i><?php echo isset($_SESSION['NAMA_NASABAH']) ? $_SESSION['NAMA_NASABAH'] : 'Nama Nasabah'; ?>
                             </a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/account.php"><i class="ft-user"></i> Akun</a><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/wallet.php"><i class="icon-wallet"></i> Dompet
+                            <div class="dropdown-divider"></div><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/account.php?ID_NASABAH=<?php echo isset($_SESSION['ID_NASABAH']) ? $_SESSION['ID_NASABAH'] : ''; ?>">
+                                <i class="ft-user"></i> Akun
+                            </a>
+                            <a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/wallet.php"><i class="icon-wallet"></i> Dompet
                                 Saya</a><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/pages/transactions.php"><i class="ft-check-square"></i>
                                 Transaksi </a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="config/logout.php"><i class="ft-power"></i> Keluar</a>
+                            <div class="dropdown-divider"></div><a class="dropdown-item" href="http://localhost/TUBES%20BASIS%20DATA/config/logout.php"><i class="ft-power"></i> Keluar</a>
                         </div>
                     </li>
                 </ul>
