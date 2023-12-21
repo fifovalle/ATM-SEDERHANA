@@ -24,6 +24,7 @@ session_start();
     <link rel="stylesheet" type="text/css" href="app-assets/css/pages/timeline.css">
     <link rel="stylesheet" type="text/css" href="app-assets/css/pages/dashboard-ico.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-compact-menu" data-col="2-columns">
@@ -78,7 +79,7 @@ session_start();
                                     <form class="form-horizontal form-purchase-token row" action="buy-ico.html">
                                         <div class="col-md-2 col-12">
                                             <fieldset class="form-label-group mb-0">
-                                                <input type="text" class="form-control" id="ico-token" value="5000" required="" autofocus="">
+                                                <input type="number" class="form-control" id="ico-token" placeholder="No Rekening" required="" autofocus="">
                                                 <label for="ico-token">No Rekening</label>
                                             </fieldset>
                                         </div>
@@ -87,7 +88,7 @@ session_start();
                                         </div>
                                         <div class="col-md-2 col-12">
                                             <fieldset class="form-label-group mb-0">
-                                                <input type="text" class="form-control" id="selected-crypto" value="1" required="" autofocus="">
+                                                <input type="number" class="form-control" id="selected-crypto" placeholder="Jumlah Uang" autofocus="">
                                                 <label for="selected-crypto">Jumlah Uang</label>
                                             </fieldset>
                                         </div>
@@ -118,12 +119,20 @@ session_start();
                                 <div class="card-body">
                                     <div class="col-12">
                                         <div class="row">
+                                            <?php
+                                            $saldo_rekening = isset($_SESSION['SALDO_REKENING']) ? $_SESSION['SALDO_REKENING'] : 0;
+                                            $saldo_awal = isset($_SESSION['SALDO_AWAL']) ? $_SESSION['SALDO_AWAL'] : 0;
+                                            $jumlah_uang_tersedia = isset($_SESSION['JUMLAH_UANG_YANG_TERSEDIA']) ? $_SESSION['JUMLAH_UANG_YANG_TERSEDIA'] : 0;
+                                            $selisih_saldo = $saldo_rekening - $saldo_awal;
+                                            $persentase = ($selisih_saldo / $saldo_awal) * 100;
+                                            $warna_text = ($persentase >= 0) ? 'text-success' : 'text-danger';
+                                            ?>
                                             <div class="col-md-8 col-12">
                                                 <p><strong>Saldo Anda:</strong></p>
-                                                <h1>Rp Saldo</h1>
-                                                <p class="mb-0">Bunga <strong>+30%</strong>
-                                                </p>
+                                                <h1>Rp <?php echo number_format($saldo_rekening); ?></h1>
+                                                <p class="mb-0">Saldo Anda <strong class="<?php echo $warna_text; ?>"><?php echo number_format($persentase, 2); ?>%</strong></p>
                                             </div>
+
                                             <div class="col-md-4 col-12 text-center text-md-right">
                                                 <button type="button" class="btn-gradient-secondary mt-2">Tarik Tunai <i class="la la-angle-right"></i></button>
                                             </div>
@@ -143,71 +152,19 @@ session_start();
                                 <div class="table-responsive">
                                     <table id="recent-orders" class="table table-hover table-xl mb-0">
                                         <thead>
-                                            <tr>
-                                                <th class="border-top-0">Status</th>
-                                                <th class="border-top-0">Date</th>
-                                                <th class="border-top-0">Amount</th>
-                                                <th class="border-top-0">Currency</th>
-                                                <th class="border-top-0">Currency</th>
-                                                <th class="border-top-0">Tokens (CIC)</th>
-                                                <th class="border-top-0">Details</th>
-                                                <th class="border-top-0"></th>
+                                            <tr class="text-center">
+                                                <th class="border-top-0">Jenis Transaksi</th>
+                                                <th class="border-top-0">Jumlah Transaksi</th>
+                                                <th class="border-top-0">Tanggal Dan Waktu</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-truncate"><i class="la la-dot-circle-o success font-medium-1 mr-1"></i> Paid
-                                                </td>
-                                                <td class="text-truncate"><a href="#">2018-01-03</a></td>
+                                            <tr class="text-center">
                                                 <td class="text-truncate">
-                                                    <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Deposit</a>
+                                                    <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Tarik Tunai</a>
                                                 </td>
                                                 <td class="text-truncate p-1">5.34111</td>
-                                                <td>
-                                                    <i class="cc ETH-alt"></i> ETH
-                                                </td>
-                                                <td>-</td>
-                                                <td class="text-truncate">Deposit to your Balance</td>
-                                                <td><i class="la la-thumbs-up warning float-right"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate"><i class="la la-dot-circle-o warning font-medium-1 mr-1"></i> in
-                                                    Process</td>
-                                                <td class="text-truncate"><a href="#">2018-01-21</a></td>
-                                                <td class="text-truncate">
-                                                    <a href="#" class="mb-0 btn-sm btn btn-outline-warning round">Referral</a>
-                                                </td>
-                                                <td class="text-truncate p-1">-</td>
-                                                <td>-</td>
-                                                <td>200.88</td>
-                                                <td class="text-truncate">Referral Promo Bonus</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate"><i class="la la-dot-circle-o danger font-medium-1 mr-1"></i>
-                                                    Pending</td>
-                                                <td class="text-truncate"><a href="#">2018-01-25</a></td>
-                                                <td class="text-truncate">
-                                                    <a href="#" class="mb-0 btn-sm btn btn-outline-danger round">Withdrawal</a>
-                                                </td>
-                                                <td class="text-truncate p-1">-</td>
-                                                <td>-</td>
-                                                <td>-3,458.88</td>
-                                                <td class="text-truncate">Tokens withdrawn</td>
-                                                <td><i class="la la-dollar warning float-right"></i></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-truncate"><i class="la la-dot-circle-o success font-medium-1 mr-1"></i> Paid
-                                                </td>
-                                                <td class="text-truncate"><a href="#">2018-01-28</a></td>
-                                                <td class="text-truncate">
-                                                    <a href="#" class="mb-0 btn-sm btn btn-outline-danger round">Deposit</a>
-                                                </td>
-                                                <td class="text-truncate p-1">0.8791</td>
-                                                <td><i class="cc BTC-alt"></i> BTC</td>
-                                                <td>--</td>
-                                                <td class="text-truncate">Deposit to your Balance</td>
-                                                <td><i class="la la-thumbs-up warning float-right"></i></td>
+                                                <td class="text-truncate"><a href="#">2018-01-03</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -223,7 +180,10 @@ session_start();
     <!-- FOOTER -->
     <?php include 'partials/footer.php' ?>
     <!-- FOOTER -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php
+    include "partials/alert.php";
+    ?>
     <script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
     <script src="app-assets/vendors/js/charts/chartist.min.js" type="text/javascript"></script>
     <script src="app-assets/vendors/js/charts/chartist-plugin-tooltip.min.js" type="text/javascript"></script>

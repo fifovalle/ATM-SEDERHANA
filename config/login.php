@@ -5,14 +5,26 @@ if (isset($_POST['masuk'])) {
     $no_rekening = $_POST['no_rekening'];
     $kata_sandi = $_POST['kata_sandi'];
 
-    $query = "SELECT * FROM `nasabah` WHERE `NO_REKENING` = '$no_rekening' AND `KATA_SANDI` = '$kata_sandi'";
+    $query = "SELECT nasabah.*, atm.*
+              FROM nasabah
+              JOIN atm ON nasabah.ID_NASABAH = atm.ID_ATM
+              WHERE nasabah.NO_REKENING = '$no_rekening' AND nasabah.KATA_SANDI = '$kata_sandi'";
     $hasil = mysqli_query($koneksi, $query);
 
     if ($hasil) {
         if (mysqli_num_rows($hasil) == 1) {
-            $data_nasabah = mysqli_fetch_assoc($hasil);
-            $_SESSION['NAMA_NASABAH'] = $data_nasabah['NAMA'];
-            $_SESSION['SALDO_REKENING'] = $data_nasabah['SALDO_REKENING'];
+            $data_nasabah_atm = mysqli_fetch_assoc($hasil);
+            $_SESSION['NAMA_NASABAH'] = $data_nasabah_atm['NAMA'];
+            $_SESSION['SALDO_REKENING'] = $data_nasabah_atm['SALDO_REKENING'];
+            $_SESSION['SALDO_AWAL'] = $data_nasabah_atm['SALDO_AWAL'];
+            $_SESSION['JUMLAH_UANG_YANG_TERSEDIA'] = $data_nasabah_atm['JUMLAH_UANG_YANG_TERSEDIA'];
+            date_default_timezone_set('Asia/Jakarta');
+            $jam = date('H');
+            $pesan = ($jam >= 6 && $jam < 12) ? "Selamat Pagi" : (($jam >= 12 && $jam < 18) ? "Selamat Siang" : (($jam >= 18 && $jam < 24) ? "Selamat Sore" : "Selamat Malam"));
+            $_SESSION['alert'] = array(
+                'type' => 'success',
+                'message' => "Halo $pesan, " . $_SESSION['NAMA_NASABAH'] . "!"
+            );
             header('Location: ../index.php');
             exit();
         } else {

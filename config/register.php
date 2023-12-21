@@ -7,6 +7,15 @@ if (isset($_POST['daftar'])) {
     $saldo_rekening = $_POST['saldo_rekening'];
     $jenis_atm = $_POST['jenis_atm'];
 
+    if (empty($jenis_atm) || $jenis_atm == "") {
+        $_SESSION['alert'] = array(
+            'type' => 'error',
+            'message' => 'Pilih Jenis Kartu ATM.'
+        );
+        header('Location: ../pages/register.php');
+        exit();
+    }
+
     $query_cek_terdaftar = "SELECT * FROM `nasabah` WHERE `NO_REKENING` = '$no_rekening'";
     $hasil_cek_terdaftar = mysqli_query($koneksi, $query_cek_terdaftar);
 
