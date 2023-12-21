@@ -79,7 +79,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                                                     Rp <?php echo number_format($saldo_awal); ?>
                                                 </span>
                                             </li>
-                                            <li class="team">
+                                            <li class="advisors">
                                                 Jumlah Uang Yang Tersedia
                                                 <span class="float-right text-muted">
                                                     Rp <?php echo number_format($jumlah_uang_tersedia); ?>

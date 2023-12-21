@@ -79,7 +79,7 @@
                     },
                     {
                         name: "Jumlah Uang Yang Tersedia",
-                        className: "ct-team",
+                        className: "ct-advisors",
                         value: <?php echo $jumlah_uang_tersedia; ?>,
                     },
                 ],
