@@ -59,12 +59,27 @@ session_start();
                             <div class="card-content">
                                 <div id="token-distribution-chart" class="height-200 donut donutShadow"></div>
                                 <div class="card-body">
+                                    <?php
+                                    $saldo_awal = isset($_SESSION['SALDO_AWAL']) ? $_SESSION['SALDO_AWAL'] : 0;
+                                    $jumlah_uang_tersedia = isset($_SESSION['JUMLAH_UANG_YANG_TERSEDIA']) ? $_SESSION['JUMLAH_UANG_YANG_TERSEDIA'] : 0;
+                                    ?>
                                     <div class="row mx-0">
                                         <ul class="token-distribution-list col-md-12 mb-0">
-                                            <li class="crowd-sale">Saldo Awal <span class="float-right text-muted">41%</span></li>
-                                            <li class="team">Saldo Akhir <span class="float-right text-muted">18%</span>
+                                            <li class="crowd-sale">
+                                                Saldo Awal
+                                                <span class="float-right text-muted">
+                                                    Rp <?php echo number_format($saldo_awal); ?>
+                                                </span>
                                             </li>
+                                            <li class="team">
+                                                Jumlah Uang Yang Tersedia
+                                                <span class="float-right text-muted">
+                                                    Rp <?php echo number_format($jumlah_uang_tersedia); ?>
+                                                </span>
+                                            </li>
+                                        </ul>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -129,10 +144,9 @@ session_start();
                                             ?>
                                             <div class="col-md-8 col-12">
                                                 <p><strong>Saldo Anda:</strong></p>
-                                                <h1>Rp <?php echo number_format($saldo_rekening); ?></h1>
-                                                <p class="mb-0">Saldo Anda <strong class="<?php echo $warna_text; ?>"><?php echo number_format($persentase, 2); ?>%</strong></p>
+                                                <h1>Rp <?php echo number_format($saldo_rekening, 0, ',', '.'); ?></h1>
+                                                <p class="mb-0">Saldo Anda <strong class="<?php echo $warna_text; ?>">Rp <?php echo number_format($persentase, 2, ',', '.'); ?>%</strong></p>
                                             </div>
-
                                             <div class="col-md-4 col-12 text-center text-md-right">
                                                 <button type="button" class="btn-gradient-secondary mt-2">Tarik Tunai <i class="la la-angle-right"></i></button>
                                             </div>
@@ -190,7 +204,9 @@ session_start();
     <script src="app-assets/vendors/js/timeline/horizontal-timeline.js" type="text/javascript"></script>
     <script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
     <script src="app-assets/js/core/app.js" type="text/javascript"></script>
-    <script src="app-assets/js/scripts/pages/dashboard-ico.js" type="text/javascript"></script>
+    <?php
+    include 'partials/chart.php';
+    ?>
 </body>
 
 </html>
