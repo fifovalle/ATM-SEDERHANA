@@ -18,7 +18,7 @@ Proyek ini bertujuan menyediakan platform ATM sederhana dengan fitur dasar seper
 
 1. Clone repositori ini ke direktori web server Anda.
 
-   git clone https://github.com/namauser/atm-sederhana.git
+   git clone https://github.com/fifovalle/atm-sederhana.git
 
 2. Impor skema basis data dari folder `database` ke MySQL.
 
