@@ -1,75 +1,85 @@
-<script>
-    $(window).on("load", function() {
-        // ICO TOKEN (SUPPLY & DEMAND)
-        var verticalBar3 = new Chartist.Bar(
-            "#ico-token-supply-demand-chart", {
-                labels: ["Q1 2018", "Q2 2018"],
-                series: [
-                    [4000, 7000]
-                ],
-            }, {
-                axisY: {
-                    labelInterpolationFnc: function(value) {
-                        return value / 1000 + "k";
-                    },
-                    scaleMinSpace: 40,
-                },
-                axisX: {
-                    showGrid: false,
-                    labelInterpolationFnc: function(value, index) {
-                        return value;
-                    },
-                },
-                plugins: [
-                    Chartist.plugins.tooltip({
-                        appendToBody: true,
-                        pointClass: "ct-point",
-                    }),
-                ],
-            }
-        );
-        verticalBar3.on("draw", function(data) {
-            if (data.type === "bar") {
-                data.element.attr({
-                    style: "stroke-width: 25px",
-                    y1: 250,
-                    x1: data.x1 + 0.001,
-                });
-                data.group.append(
-                    new Chartist.Svg(
-                        "circle", {
-                            cx: data.x2,
-                            cy: data.y2,
-                            r: 12,
+<?php
+$query_transaksi = "SELECT TANGGAL_DAN_WAKTU_TRANSAKSI, JUMLAH_TRANSAKSI FROM transaksi WHERE ID_NASABAH = '$_SESSION[ID_NASABAH]' OR ID_ATM = '$_SESSION[ID_ATM]'";
+$result_transaksi = mysqli_query($koneksi, $query_transaksi);
+if ($result_transaksi) {
+    $dataLabels = [];
+    $dataSeries = [];
+    while ($row = mysqli_fetch_assoc($result_transaksi)) {
+        $dataLabels[] = $row['TANGGAL_DAN_WAKTU_TRANSAKSI'];
+        $dataSeries[] = $row['JUMLAH_TRANSAKSI'];
+    }
+?>
+    <script>
+        $(window).on("load", function() {
+            var dataLabels = <?php echo json_encode($dataLabels); ?>;
+            var dataSeries = <?php echo json_encode([$dataSeries]); ?>;
+            var verticalBar3 = new Chartist.Bar(
+                "#ico-token-supply-demand-chart", {
+                    labels: dataLabels,
+                    series: dataSeries,
+                }, {
+                    axisY: {
+                        labelInterpolationFnc: function(value) {
+                            return value / 1000 + " Rb";
                         },
-                        "ct-slice-pie"
-                    )
-                );
-            }
-        });
-        verticalBar3.on("created", function(data) {
-            var defs = data.svg.querySelector("defs") || data.svg.elem("defs");
-            defs
-                .elem("linearGradient", {
-                    id: "barGradient3",
-                    x1: 0,
-                    y1: 0,
-                    x2: 0,
-                    y2: 1,
-                })
-                .elem("stop", {
-                    offset: 0,
-                    "stop-color": "rgb(28, 120, 255)",
-                })
-                .parent()
-                .elem("stop", {
-                    offset: 1,
-                    "stop-color": "rgb(41, 188, 253)",
-                });
-            return defs;
+                        scaleMinSpace: 40,
+                    },
+                    axisX: {
+                        showGrid: false,
+                        labelInterpolationFnc: function(value, index) {
+                            return value;
+                        },
+                    },
+                    plugins: [
+                        Chartist.plugins.tooltip({
+                            appendToBody: true,
+                            pointClass: "ct-point",
+                        }),
+                    ],
+                }
+            );
+            verticalBar3.on("draw", function(data) {
+                if (data.type === "bar") {
+                    data.element.attr({
+                        style: "stroke-width: 25px",
+                        y1: 250,
+                        x1: data.x1 + 0.001,
+                    });
+                    data.group.append(
+                        new Chartist.Svg(
+                            "circle", {
+                                cx: data.x2,
+                                cy: data.y2,
+                                r: 12,
+                            },
+                            "ct-slice-pie"
+                        )
+                    );
+                }
+            });
+            verticalBar3.on("created", function(data) {
+                var defs = data.svg.querySelector("defs") || data.svg.elem("defs");
+                defs
+                    .elem("linearGradient", {
+                        id: "barGradient3",
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1,
+                    })
+                    .elem("stop", {
+                        offset: 0,
+                        "stop-color": "rgb(28, 120, 255)",
+                    })
+                    .parent()
+                    .elem("stop", {
+                        offset: 1,
+                        "stop-color": "rgb(41, 188, 253)",
+                    });
+                return defs;
+            });
         });
 
-        // TOKEN DISTRIBUTION
         var chart = new Chartist.Pie(
             "#token-distribution-chart", {
                 series: [{
@@ -222,5 +232,9 @@
                 }
             }
         });
-    });
-</script>
+    </script>
+<?php
+} else {
+    echo 'Error: ' . mysqli_error($koneksi);
+}
+?>

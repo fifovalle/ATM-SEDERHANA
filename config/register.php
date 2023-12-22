@@ -29,7 +29,7 @@ if (isset($_POST['daftar'])) {
         exit();
     }
 
-    if ($saldo_rekening >= 100000) {
+    if ($saldo_rekening >= 50000) {
         if (isset($_POST['setuju_syarat'])) {
             $lokasi_default = 'Cimahi';
 
@@ -40,12 +40,27 @@ if (isset($_POST['daftar'])) {
             $hasil_atm = mysqli_query($koneksi, $query_atm);
 
             if ($hasil_nasabah && $hasil_atm) {
-                $_SESSION['alert'] = array(
-                    'type' => 'success',
-                    'message' => 'Pendaftaran berhasil!'
-                );
-                header('Location: ../pages/login.php');
-                exit();
+                $id_nasabah = mysqli_insert_id($koneksi);
+                $id_atm = mysqli_insert_id($koneksi);
+
+                $query_insert_transaksi = "INSERT INTO `transaksi` (`ID_ATM`, `ID_NASABAH`, `JENIS_TRANSAKSI`, `JUMLAH_TRANSAKSI`, `TANGGAL_DAN_WAKTU_TRANSAKSI`) 
+                VALUES ('$id_atm', '$id_nasabah', 'MENABUNG', $saldo_rekening, NOW())";
+
+                $hasil_insert_transaksi = mysqli_query($koneksi, $query_insert_transaksi);
+
+                if ($hasil_insert_transaksi) {
+                    $_SESSION['alert'] = array(
+                        'type' => 'success',
+                        'message' => 'Pendaftaran berhasil!'
+                    );
+                    header('Location: ../pages/login.php');
+                    exit();
+                } else {
+                    $_SESSION['alert'] = array(
+                        'type' => 'error',
+                        'message' => 'Terjadi kesalahan saat mendaftar.'
+                    );
+                }
             } else {
                 $_SESSION['alert'] = array(
                     'type' => 'error',
@@ -61,7 +76,7 @@ if (isset($_POST['daftar'])) {
     } else {
         $_SESSION['alert'] = array(
             'type' => 'error',
-            'message' => 'Saldo rekening minimal untuk menabung adalah Rp 100.000,-'
+            'message' => 'Saldo rekening minimal untuk menabung adalah Rp 50.000,-'
         );
     }
     mysqli_close($koneksi);

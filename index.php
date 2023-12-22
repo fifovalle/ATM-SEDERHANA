@@ -1,5 +1,5 @@
 <?php
-session_start();
+include('config/connection.php');
 if (!isset($_SESSION['ID_NASABAH'])) {
     $_SESSION['alert'] = array(
         'type' => 'warning',
@@ -154,7 +154,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                                             <div class="col-md-8 col-12">
                                                 <p><strong>Saldo Anda:</strong></p>
                                                 <h1>Rp <?php echo number_format($saldo_rekening, 0, ',', '.'); ?></h1>
-                                                <p class="mb-0">Saldo Anda <strong class="<?php echo $warna_text; ?>">Rp <?php echo number_format($persentase, 2, ',', '.'); ?>%</strong></p>
+                                                <p class="mb-0">Saldo Anda <strong class="<?php echo $warna_text; ?>"><?php echo number_format($persentase, 0, ',', '.'); ?>%</strong></p>
                                             </div>
                                             <div class="col-md-4 col-12 text-center text-md-right">
                                                 <button type="button" class="btn-gradient-secondary mt-2">Tarik Tunai <i class="la la-angle-right"></i></button>

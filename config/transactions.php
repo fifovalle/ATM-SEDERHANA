@@ -20,10 +20,10 @@ if (isset($_POST['kirim'])) {
         $id_atm = $_SESSION['ID_ATM'];
 
         $saldo_nasabah = $_SESSION['SALDO_REKENING'];
-        if ($jenis_transaksi == 'TRANSFER' && $saldo_nasabah < $jumlah_transaksi) {
+        if (($jenis_transaksi == 'TRANSFER' || $jenis_transaksi == 'TARIK TUNAI') && $saldo_nasabah < $jumlah_transaksi) {
             $_SESSION['alert'] = array(
                 'type' => 'error',
-                'message' => 'Saldo tidak mencukupi untuk transfer ini.'
+                'message' => 'Saldo tidak mencukupi untuk transaksi ini.'
             );
             header('Location: ../index.php');
             exit();
