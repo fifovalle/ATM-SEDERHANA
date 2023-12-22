@@ -69,13 +69,23 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                   <div class="col-12">
                     <div class="row">
                       <div class="col-md-2 col-12">
-                        <img src="../app-assets/images/portrait/medium/avatar-m-1.png" class="rounded-circle height-100" alt="Card image" />
+                        <img src="http://localhost/TUBES%20BASIS%20DATA/assets/img/1.jpg" class="rounded-circle height-100" alt="Card image" />
                       </div>
                       <div class="col-md-10 col-12">
                         <div class="row">
                           <div class="col-12 col-md-4">
                             <p class="text-bold-700 text-uppercase mb-0">Transaksi</p>
-                            <p class="mb-0">12/14</p>
+                            <?php
+                            $query_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
+                            $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+                            if ($result_transaksi) {
+                              $row = mysqli_fetch_assoc($result_transaksi);
+                              $jumlah_transaksi = $row['jumlah_transaksi'];
+                              echo "<p class='mb-0'>$jumlah_transaksi</p>";
+                            } else {
+                              echo 'Error: ' . mysqli_error($koneksi);
+                            }
+                            ?>
                           </div>
                           <div class="col-12 col-md-4">
                             <p class="text-bold-700 text-uppercase mb-0">Pembuatan Rekening</p>
@@ -95,7 +105,6 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                               echo "Terjadi kesalahan saat mengambil data nasabah.";
                             }
                           }
-                          mysqli_close($koneksi);
                           ?>
                           <div class="col-12 col-md-4">
                             <p class="text-bold-700 text-uppercase mb-0">Alamat</p>
@@ -149,13 +158,54 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                 </div>
                 <div class="table-responsive">
                   <table class="table table-de mb-0">
-                    <tbody>
-                      <tr>
-                        <td>CIC Token</td>
-                        <td><i class="icon-layers"></i> 3,258 CIC</td>
-                      </tr>
-                    </tbody>
+                    <?php
+                    $halaman_sekarang = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+                    $batas_per_halaman = 5;
+                    $batas_awal = ($halaman_sekarang - 1) * $batas_per_halaman;
+                    $query_transaksi = "SELECT * FROM transaksi LIMIT $batas_awal, $batas_per_halaman";
+                    $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+                    if ($result_transaksi) {
+                    ?>
+                      <tbody>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result_transaksi)) {
+                          $kelas_warna = '';
+                          if ($row['JENIS_TRANSAKSI'] == 'TRANSFER' || $row['JENIS_TRANSAKSI'] == 'TARIK TUNAI') {
+                            $kelas_warna = 'text-danger';
+                          } elseif ($row['JENIS_TRANSAKSI'] == 'MENABUNG') {
+                            $kelas_warna = 'text-success';
+                          }
+                        ?>
+                          <tr>
+                            <td class="<?= $kelas_warna ?>"><?= $row['JENIS_TRANSAKSI'] ?></td>
+                            <td><i class="icon-layers"></i> <?= $row['JUMLAH_TRANSAKSI'] ?></td>
+                          </tr>
+                        <?php
+                        }
+                        ?>
+                      </tbody>
                   </table>
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
+                      <?php
+                      $query_jumlah_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
+                      $result_jumlah_transaksi = mysqli_query($koneksi, $query_jumlah_transaksi);
+                      $row_jumlah = mysqli_fetch_assoc($result_jumlah_transaksi);
+                      $jumlah_halaman = ceil($row_jumlah['jumlah_transaksi'] / $batas_per_halaman);
+                      for ($halaman = 1; $halaman <= $jumlah_halaman; $halaman++) {
+                        echo "<li class='page-item " . ($halaman == $halaman_sekarang ? 'active' : '') . "'>";
+                        echo "<a class='page-link' href='?halaman=$halaman'>$halaman</a>";
+                        echo "</li>";
+                      }
+                      ?>
+                    </ul>
+                  </nav>
+                <?php
+                    } else {
+                      echo 'Error: ' . mysqli_error($koneksi);
+                    }
+                    mysqli_close($koneksi);
+                ?>
                 </div>
               </div>
             </div>

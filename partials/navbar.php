@@ -15,7 +15,7 @@
                     </li>
                     <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="pages/wallet.php"><i class="ficon icon-wallet"></i></a></li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                            <span class="avatar avatar-online"><img src="http://localhost/TUBES%20BASIS%20DATA/9.jpg" alt="avatar">
+                            <span class="avatar avatar-online"><img src="http://localhost/TUBES%20BASIS%20DATA/assets/img/1.jpg" alt="avatar">
                             </span><span class="mr-1">Rp<span class="user-name text-bold-700"><?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING']) : '0'; ?></span></span></a>
                         <div class="dropdown-menu dropdown-menu-right"> <a class="dropdown-item" href="#"><i class="ft-award"></i><?php echo isset($_SESSION['NAMA_NASABAH']) ? $_SESSION['NAMA_NASABAH'] : 'Nama Nasabah'; ?>
                             </a>
