@@ -99,10 +99,10 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                         <div class="card pull-up">
                             <div class="card-content collapse show">
                                 <div class="card-body">
-                                    <form class="form-horizontal form-purchase-token row" action="buy-ico.html">
+                                    <form class="form-horizontal form-purchase-token row" action="config/transactions.php" method="POST">
                                         <div class="col-md-2 col-12">
                                             <fieldset class="form-label-group mb-0">
-                                                <input type="number" class="form-control" id="ico-token" placeholder="No Rekening" required="" autofocus="">
+                                                <input type="number" class="form-control" id="ico-token" placeholder="No Rekening" required="" autofocus="" name="no_rekening">
                                                 <label for="ico-token">No Rekening</label>
                                             </fieldset>
                                         </div>
@@ -111,21 +111,22 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                                         </div>
                                         <div class="col-md-2 col-12">
                                             <fieldset class="form-label-group mb-0">
-                                                <input type="number" class="form-control" id="selected-crypto" placeholder="Jumlah Uang" autofocus="">
-                                                <label for="selected-crypto">Jumlah Uang</label>
+                                                <input type="number" class="form-control" id="selected-crypto" placeholder="Jumlah Uang" autofocus="" name="jumlah_transaksi">
+                                                <label for="selected-crypto">Jumlah Transaksi</label>
                                             </fieldset>
                                         </div>
                                         <div class="col-md-4 col-12 mb-1">
                                             <fieldset class="form-label-group mb-0">
-                                                <select name="" id="" class="form-control">
+                                                <select name="jenis_transaksi" id="" class="form-control">
                                                     <option value="" selected>Metode Transaksi</option>
-                                                    <option value="">Transafer</option>
-                                                    <option value="">Tarik Tunai</option>
+                                                    <option value="TRANSFER">Transafer</option>
+                                                    <option value="TARIK TUNAI">Tarik Tunai</option>
+                                                    <option value="MENABUNG">Menabung</option>
                                                 </select>
                                             </fieldset>
                                         </div>
                                         <div class="col-md-3 col-12 text-center">
-                                            <button type="submit" class="btn-gradient-secondary">Kirim Sekarang</button>
+                                            <button type="submit" name="kirim" class="btn-gradient-secondary">Kirim Sekarang</button>
                                         </div>
                                     </form>
                                 </div>
