@@ -69,11 +69,13 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                 $halaman_sekarang = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
                 $offset = ($halaman_sekarang - 1) * $baris_per_halaman;
 
+                $idNasabah = $_SESSION['ID_NASABAH']; // Ambil ID Nasabah dari sesi
                 $query_transaksi = "SELECT transaksi.JENIS_TRANSAKSI, transaksi.JUMLAH_TRANSAKSI, transaksi.TANGGAL_DAN_WAKTU_TRANSAKSI, nasabah.NAMA, nasabah.NO_REKENING, atm.JUMLAH_UANG_YANG_TERSEDIA
-                        FROM transaksi
-                        JOIN nasabah ON transaksi.ID_NASABAH = nasabah.ID_NASABAH
-                        JOIN atm ON transaksi.ID_ATM = atm.ID_ATM
-                        LIMIT $offset, $baris_per_halaman";
+                            FROM transaksi
+                            JOIN nasabah ON transaksi.ID_NASABAH = nasabah.ID_NASABAH
+                            JOIN atm ON transaksi.ID_ATM = atm.ID_ATM
+                            WHERE nasabah.ID_NASABAH = '$idNasabah'
+                            LIMIT $offset, $baris_per_halaman";
 
                 $result_transaksi = mysqli_query($koneksi, $query_transaksi);
 
@@ -115,7 +117,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                           <nav aria-label="Page navigation example">
                             <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
                               <?php
-                              $query_jumlah_data = "SELECT COUNT(*) AS jumlah_data FROM transaksi";
+                              $query_jumlah_data = "SELECT COUNT(*) AS jumlah_data FROM transaksi WHERE ID_NASABAH = '$idNasabah'";
                               $result_jumlah_data = mysqli_query($koneksi, $query_jumlah_data);
                               $row_jumlah_data = mysqli_fetch_assoc($result_jumlah_data);
                               $jumlah_halaman = ceil($row_jumlah_data['jumlah_data'] / $baris_per_halaman);
