@@ -59,202 +59,86 @@ if (!isset($_SESSION['ID_NASABAH'])) {
           <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="wallet.html">Layanan</a></div>
         </div>
       </div>
-      <div class="content-body">
-        <div id="transactions">
-          <div class="transactions-table-th d-none d-md-block">
-            <div class="col-12">
-              <div class="row px-1">
-                <div class="col-md-2 col-12 py-1">
-                  <p class="mb-0">Date</p>
-                </div>
-                <div class="col-md-2 col-12 py-1">
-                  <p class="mb-0">Type</p>
-                </div>
-                <div class="col-md-2 col-12 py-1">
-                  <p class="mb-0">Amount</p>
-                </div>
-                <div class="col-md-1 col-12 py-1">
-                  <p class="mb-0">Currency</p>
-                </div>
-                <div class="col-md-2 col-12 py-1">
-                  <p class="mb-0">Tokens (CIC)</p>
-                </div>
-                <div class="col-md-3 col-12 py-1">
-                  <p class="mb-0">Details</p>
-                </div>
+      <div class="row">
+        <div id="recent-transactions" class="col-12">
+          <div class="card">
+            <div class="card-content">
+              <div class="table-responsive">
+                <?php
+                $baris_per_halaman = 5;
+                $halaman_sekarang = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
+                $offset = ($halaman_sekarang - 1) * $baris_per_halaman;
+
+                $query_transaksi = "SELECT transaksi.JENIS_TRANSAKSI, transaksi.JUMLAH_TRANSAKSI, transaksi.TANGGAL_DAN_WAKTU_TRANSAKSI, nasabah.NAMA, nasabah.NO_REKENING, atm.JUMLAH_UANG_YANG_TERSEDIA
+                        FROM transaksi
+                        JOIN nasabah ON transaksi.ID_NASABAH = nasabah.ID_NASABAH
+                        JOIN atm ON transaksi.ID_ATM = atm.ID_ATM
+                        LIMIT $offset, $baris_per_halaman";
+
+                $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+
+                if ($result_transaksi) {
+                ?>
+                  <table id="recent-orders" class="table table-hover table-xl mb-0">
+                    <thead>
+                      <tr class="text-center">
+                        <th class="border-top-0">Nama Nasabah</th>
+                        <th class="border-top-0">No Rekening</th>
+                        <th class="border-top-0">Jumlah Uang Yang Tersedia</th>
+                        <th class="border-top-0">Jenis Transaksi</th>
+                        <th class="border-top-0">Jumlah Transaksi</th>
+                        <th class="border-top-0">Tanggal Dan Waktu</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      while ($row = mysqli_fetch_assoc($result_transaksi)) {
+                        $class = ($row['JENIS_TRANSAKSI'] == 'MENABUNG') ? 'btn-outline-success' : 'btn-outline-danger';
+                      ?>
+                        <tr class="text-center">
+                          <td class="text-truncate"><?php echo $row['NAMA']; ?></td>
+                          <td class="text-truncate"><?php echo $row['NO_REKENING']; ?></td>
+                          <td class="text-truncate"><?php echo $row['JUMLAH_UANG_YANG_TERSEDIA']; ?></td>
+                          <td class="text-truncate">
+                            <a href="#" class="mb-0 btn-sm btn <?php echo $class; ?> round"><?php echo $row['JENIS_TRANSAKSI']; ?></a>
+                          </td>
+                          <td class="text-truncate p-1"><?php echo $row['JUMLAH_TRANSAKSI']; ?></td>
+                          <td class="text-truncate"><a href="#"><?php echo $row['TANGGAL_DAN_WAKTU_TRANSAKSI']; ?></a></td>
+                        </tr>
+                      <?php
+                      }
+                      ?>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="6" class="text-center">
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
+                              <?php
+                              $query_jumlah_data = "SELECT COUNT(*) AS jumlah_data FROM transaksi";
+                              $result_jumlah_data = mysqli_query($koneksi, $query_jumlah_data);
+                              $row_jumlah_data = mysqli_fetch_assoc($result_jumlah_data);
+                              $jumlah_halaman = ceil($row_jumlah_data['jumlah_data'] / $baris_per_halaman);
+
+                              for ($i = 1; $i <= $jumlah_halaman; $i++) {
+                                echo "<li class='page-item " . ($i == $halaman_sekarang ? 'active' : '') . "'>";
+                                echo "<a class='page-link' href='?halaman=$i'>$i</a>";
+                                echo "</li>";
+                              }
+                              ?>
+                            </ul>
+                          </nav>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                <?php
+                } else {
+                  echo 'Error: ' . mysqli_error($koneksi);
+                }
+                ?>
               </div>
             </div>
-          </div>
-          <div class="transactions-table-tbody">
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Date: </span>2018-01-03</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <span class="d-inline-block d-md-none text-bold-700">Type: </span> <span class="d-inline-block d-md-none text-bold-700">Type: </span> <a href="#" class="mb-0 btn-sm btn btn-outline-warning round">Deposit</a>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Amount: </span> 5.34111
-                        </p>
-                      </div>
-                      <div class="col-md-1 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Currency: </span> <i class="cc ETH-alt"></i> ETH</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Tokens: </span> - </p>
-                      </div>
-                      <div class="col-md-3 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Details: </span> Deposit to
-                          your Balance <i class="la la-thumbs-up warning float-right"></i></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Date:</span> 2018-01-03</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <span class="d-inline-block d-md-none text-bold-700">Type: </span> <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Deposit</a>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Amount: </span> 5.34111
-                        </p>
-                      </div>
-                      <div class="col-md-1 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Currency: </span> <i class="cc ETH-alt"></i> ETH</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Tokens: </span> 3,258</p>
-                      </div>
-                      <div class="col-md-3 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Details: </span> Tokens
-                          Purchase</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Date:</span> 2018-01-03</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <span class="d-inline-block d-md-none text-bold-700">Type: </span> <a href="#" class="mb-0 btn-sm btn btn-outline-info round">Referral</a>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Amount: </span> - </p>
-                      </div>
-                      <div class="col-md-1 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Currency: </span> - </p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Tokens: </span> 200.88</p>
-                      </div>
-                      <div class="col-md-3 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Details: </span> Referral
-                          Promo Bonus</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Date:</span> 2018-01-21</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <span class="d-inline-block d-md-none text-bold-700">Type: </span> <a href="#" class="mb-0 btn-sm btn btn-outline-danger round">Withdrawal</a>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Amount: </span> - </p>
-                      </div>
-                      <div class="col-md-1 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Currency: </span> - </p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Tokens: </span> - 3,458.88
-                        </p>
-                      </div>
-                      <div class="col-md-3 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Details: </span> Tokens
-                          withdrawn <i class="la la-dollar warning float-right"></i></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Date:</span> 2018-01-25</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <span class="d-inline-block d-md-none text-bold-700">Type: </span> <a href="#" class="mb-0 btn-sm btn btn-outline-warning round">Deposit</a>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Amount: </span> 0.8791 </p>
-                      </div>
-                      <div class="col-md-1 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Currency: </span> <i class="cc BTC-alt"></i> BTC</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Tokens: </span> - </p>
-                      </div>
-                      <div class="col-md-3 col-12 py-1">
-                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Details: </span> Deposit to
-                          your Balance <i class="la la-thumbs-up warning float-right"></i></p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <nav aria-label="Page navigation">
-              <ul class="pagination justify-content-center pagination-separate pagination-flat">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">« Prev</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">Next »</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </div>
       </div>
