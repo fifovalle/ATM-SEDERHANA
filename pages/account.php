@@ -112,7 +112,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                           </div>
                         </div>
                         <hr />
-                        <form class="form-horizontal form-user-profile row mt-2" action="../config/edit-account.php" method="post">
+                        <form class="form-horizontal form-user-profile row mt-2" action="../config/edit-account.php" method="post" id="hapusAkunForm">
                           <div class="col-6">
                             <fieldset class="form-label-group">
                               <input type="text" class="form-control" id="first-name" placeholder="Nama Nasabah" name="nama" value="<?php echo $nama_nasabah; ?>" required autofocus>
@@ -131,8 +131,13 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                               <label for="new-password">Kata Sandi Nasabah</label>
                             </fieldset>
                           </div>
-                          <div class="col-12 text-right">
-                            <button type="submit" name="simpan" class="btn-gradient-primary my-1">Simpan</button>
+                          <div class="row">
+                            <div class="col-5">
+                              <button type="submit" name="simpan" class="btn-gradient-primary my-1">Simpan</button>
+                            </div>
+                            <div class="col-7">
+                              <button type="button" id="btnHapusAkun" class="btn-gradient-secondary my-1">Hapus Akun</button>
+                            </div>
                           </div>
                         </form>
                       </div>
@@ -221,6 +226,25 @@ if (!isset($_SESSION['ID_NASABAH'])) {
   <?php
   include "../partials/alert.php";
   ?>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.getElementById('btnHapusAkun').addEventListener('click', function() {
+      Swal.fire({
+        title: 'Yakin menghapus akun?',
+        text: 'Aksi ini tidak dapat dibatalkan!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus Akun'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('hapusAkunForm').action = '../config/delete-account.php';
+          document.getElementById('hapusAkunForm').submit();
+        }
+      });
+    });
+  </script>
   <script src="../app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
   <script src="../app-assets/vendors/js/forms/toggle/switchery.min.js" type="text/javascript"></script>
   <script src="../app-assets/js/core/app-menu.js" type="text/javascript"></script>
