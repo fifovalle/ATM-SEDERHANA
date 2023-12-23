@@ -56,131 +56,76 @@ if (!isset($_SESSION['ID_NASABAH'])) {
           </div>
         </div>
         <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="wallet.html">Tarik
-              Tunai</a></div>
+          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="http://localhost/TUBES%20BASIS%20DATA/pages/transactions.php">Transaksi Saya</a></div>
         </div>
       </div>
-      <div class="content-detached content-left">
-        <div class="content-body">
-          <div id="wallet">
-            <div class="wallet-table-th d-none d-md-block">
-              <div class="row">
-                <div class="col-md-6 col-12 py-1">
-                  <p class="mt-0 text-capitalize">Cryptocurrency</p>
-                </div>
-                <div class="col-md-2 col-12 py-1 text-center">
-                  <p class="mt-0 text-capitalize">Available</p>
-                </div>
-                <div class="col-md-4 col-12 py-1 text-center">
-                  <p class="mt-0 text-capitalize">Transect</p>
-                </div>
-              </div>
-            </div>
-            <!-- BTC -->
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-md-6 col-12 py-1">
-                        <div class="media">
-                          <i class="cc BTC mr-2 font-large-2 warning"></i>
-                          <div class="media-body">
-                            <h5 class="mt-0 text-capitalize">Bitcoin</h5>
-                            <p class="text-muted mb-0 font-small-3 wallet-address">
-                              0xe834a970619218d0a7db4ee5a3c87022e71e177f</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 col-12 py-1 text-center">
-                        <h6>0.019842 BTC</h6>
-                        <p class="text-muted mb-0 font-small-3">~ $2650.78</p>
-                      </div>
-                      <div class="col-md-2 col-12 py-1 text-center">
-                        <a href="#" class="line-height-3">Nabung</a>
-                      </div>
-                      <div class="col-md-2 col-12 py-1 text-center">
-                        <a href="#" class="line-height-3">Tarik Tunai</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
+      <div id="wallet-sidebar" class="sidebar-content">
+        <div class="row">
+          <p class="py-1 text-capitalize col-12">Saldo Anda</p>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h6 class="card-title text-center">Saldo Anda</h6>
           </div>
-        </div>
-      </div>
-      <div class="sidebar-detached sidebar-right"="">
-        <div class="sidebar">
-          <div id="wallet-sidebar" class="sidebar-content">
-            <div class="row">
-              <p class="py-1 text-capitalize col-12">Saldo Anda</p>
+          <div class="card-content collapse show">
+            <div class="card-body">
+              <div class="text-center row clearfix mb-2">
+                <div class="col-12">
+                  <i class="icon-layers font-large-3 bg-warning bg-glow white rounded-circle p-3 d-inline-block"></i>
+                </div>
+              </div>
+              <h3 class="text-center">Rp <?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING'], 0, ',', '.') : '0'; ?></h3>
             </div>
-            <div class="card">
-              <div class="card-header">
-                <h6 class="card-title text-center">Saldo Anda</h6>
-              </div>
-              <div class="card-content collapse show">
-                <div class="card-body">
-                  <div class="text-center row clearfix mb-2">
-                    <div class="col-12">
-                      <i class="icon-layers font-large-3 bg-warning bg-glow white rounded-circle p-3 d-inline-block"></i>
-                    </div>
-                  </div>
-                  <h3 class="text-center">Rp <?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING'], 0, ',', '.') : '0'; ?></h3>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-de mb-0">
-                    <?php
-                    $halaman_sekarang = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
-                    $batas_per_halaman = 5;
-                    $batas_awal = ($halaman_sekarang - 1) * $batas_per_halaman;
-                    $query_transaksi = "SELECT * FROM transaksi LIMIT $batas_awal, $batas_per_halaman";
-                    $result_transaksi = mysqli_query($koneksi, $query_transaksi);
-                    if ($result_transaksi) {
-                    ?>
-                      <tbody>
-                        <?php
-                        while ($row = mysqli_fetch_assoc($result_transaksi)) {
-                          $kelas_warna = '';
-                          if ($row['JENIS_TRANSAKSI'] == 'TRANSFER' || $row['JENIS_TRANSAKSI'] == 'TARIK TUNAI') {
-                            $kelas_warna = 'text-danger';
-                          } elseif ($row['JENIS_TRANSAKSI'] == 'MENABUNG') {
-                            $kelas_warna = 'text-success';
-                          }
-                        ?>
-                          <tr>
-                            <td class="<?= $kelas_warna ?>"><?= $row['JENIS_TRANSAKSI'] ?></td>
-                            <td><i class="icon-layers"></i> <?= $row['JUMLAH_TRANSAKSI'] ?></td>
-                          </tr>
-                        <?php
-                        }
-                        ?>
-                      </tbody>
-                  </table>
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
-                      <?php
-                      $query_jumlah_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
-                      $result_jumlah_transaksi = mysqli_query($koneksi, $query_jumlah_transaksi);
-                      $row_jumlah = mysqli_fetch_assoc($result_jumlah_transaksi);
-                      $jumlah_halaman = ceil($row_jumlah['jumlah_transaksi'] / $batas_per_halaman);
-                      for ($halaman = 1; $halaman <= $jumlah_halaman; $halaman++) {
-                        echo "<li class='page-item " . ($halaman == $halaman_sekarang ? 'active' : '') . "'>";
-                        echo "<a class='page-link' href='?halaman=$halaman'>$halaman</a>";
-                        echo "</li>";
-                      }
-                      ?>
-                    </ul>
-                  </nav>
+            <div class="table-responsive">
+              <table class="table table-de mb-0">
                 <?php
-                    } else {
-                      echo 'Error: ' . mysqli_error($koneksi);
-                    }
-                    mysqli_close($koneksi);
+                $halaman_sekarang = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+                $batas_per_halaman = 5;
+                $batas_awal = ($halaman_sekarang - 1) * $batas_per_halaman;
+                $query_transaksi = "SELECT * FROM transaksi LIMIT $batas_awal, $batas_per_halaman";
+                $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+                if ($result_transaksi) {
                 ?>
-                </div>
-              </div>
+                  <tbody>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($result_transaksi)) {
+                      $kelas_warna = '';
+                      if ($row['JENIS_TRANSAKSI'] == 'TRANSFER' || $row['JENIS_TRANSAKSI'] == 'TARIK TUNAI') {
+                        $kelas_warna = 'text-danger';
+                      } elseif ($row['JENIS_TRANSAKSI'] == 'MENABUNG') {
+                        $kelas_warna = 'text-success';
+                      }
+                    ?>
+                      <tr>
+                        <td class="<?= $kelas_warna ?>"><?= $row['JENIS_TRANSAKSI'] ?></td>
+                        <td><i class="icon-layers"></i> <?= $row['JUMLAH_TRANSAKSI'] ?></td>
+                      </tr>
+                    <?php
+                    }
+                    ?>
+                  </tbody>
+              </table>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
+                  <?php
+                  $query_jumlah_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
+                  $result_jumlah_transaksi = mysqli_query($koneksi, $query_jumlah_transaksi);
+                  $row_jumlah = mysqli_fetch_assoc($result_jumlah_transaksi);
+                  $jumlah_halaman = ceil($row_jumlah['jumlah_transaksi'] / $batas_per_halaman);
+                  for ($halaman = 1; $halaman <= $jumlah_halaman; $halaman++) {
+                    echo "<li class='page-item " . ($halaman == $halaman_sekarang ? 'active' : '') . "'>";
+                    echo "<a class='page-link' href='?halaman=$halaman'>$halaman</a>";
+                    echo "</li>";
+                  }
+                  ?>
+                </ul>
+              </nav>
+            <?php
+                } else {
+                  echo 'Error: ' . mysqli_error($koneksi);
+                }
+                mysqli_close($koneksi);
+            ?>
             </div>
           </div>
         </div>
