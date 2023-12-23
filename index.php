@@ -173,24 +173,68 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                         <div class="card">
                             <div class="card-content">
                                 <div class="table-responsive">
-                                    <table id="recent-orders" class="table table-hover table-xl mb-0">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th class="border-top-0">Jenis Transaksi</th>
-                                                <th class="border-top-0">Jumlah Transaksi</th>
-                                                <th class="border-top-0">Tanggal Dan Waktu</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="text-center">
-                                                <td class="text-truncate">
-                                                    <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Tarik Tunai</a>
-                                                </td>
-                                                <td class="text-truncate p-1">5.34111</td>
-                                                <td class="text-truncate"><a href="#">2018-01-03</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <?php
+                                    $baris_per_halaman = 5;
+                                    $halaman_sekarang = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
+                                    $offset = ($halaman_sekarang - 1) * $baris_per_halaman;
+
+                                    $query_transaksi = "SELECT JENIS_TRANSAKSI, JUMLAH_TRANSAKSI, TANGGAL_DAN_WAKTU_TRANSAKSI FROM transaksi LIMIT $offset, $baris_per_halaman";
+                                    $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+
+                                    if ($result_transaksi) {
+                                    ?>
+                                        <table id="recent-orders" class="table table-hover table-xl mb-0">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th class="border-top-0">Jenis Transaksi</th>
+                                                    <th class="border-top-0">Jumlah Transaksi</th>
+                                                    <th class="border-top-0">Tanggal Dan Waktu</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                while ($row = mysqli_fetch_assoc($result_transaksi)) {
+                                                    $class = ($row['JENIS_TRANSAKSI'] == 'MENABUNG') ? 'btn-outline-success' : 'btn-outline-danger';
+                                                ?>
+                                                    <tr class="text-center">
+                                                        <td class="text-truncate">
+                                                            <a href="#" class="mb-0 btn-sm btn <?php echo $class; ?> round"><?php echo $row['JENIS_TRANSAKSI']; ?></a>
+                                                        </td>
+                                                        <td class="text-truncate p-1"><?php echo $row['JUMLAH_TRANSAKSI']; ?></td>
+                                                        <td class="text-truncate"><a href="#"><?php echo $row['TANGGAL_DAN_WAKTU_TRANSAKSI']; ?></a></td>
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" class="text-center">
+                                                        <nav aria-label="Page navigation example">
+                                                            <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
+                                                                <?php
+                                                                $query_jumlah_data = "SELECT COUNT(*) AS jumlah_data FROM transaksi";
+                                                                $result_jumlah_data = mysqli_query($koneksi, $query_jumlah_data);
+                                                                $row_jumlah_data = mysqli_fetch_assoc($result_jumlah_data);
+                                                                $jumlah_halaman = ceil($row_jumlah_data['jumlah_data'] / $baris_per_halaman);
+
+                                                                for ($i = 1; $i <= $jumlah_halaman; $i++) {
+                                                                    echo "<li class='page-item " . ($i == $halaman_sekarang ? 'active' : '') . "'>";
+                                                                    echo "<a class='page-link' href='?halaman=$i'>$i</a>";
+                                                                    echo "</li>";
+                                                                }
+                                                                ?>
+                                                            </ul>
+                                                        </nav>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    <?php
+                                    } else {
+                                        echo 'Error: ' . mysqli_error($koneksi);
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>

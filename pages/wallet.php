@@ -118,27 +118,67 @@ if (!isset($_SESSION['ID_NASABAH'])) {
             </div>
             <div class="card">
               <div class="card-header">
-                <h6 class="card-title text-center">Saldo</h6>
+                <h6 class="card-title text-center">Saldo Anda</h6>
               </div>
               <div class="card-content collapse show">
                 <div class="card-body">
-
                   <div class="text-center row clearfix mb-2">
                     <div class="col-12">
                       <i class="icon-layers font-large-3 bg-warning bg-glow white rounded-circle p-3 d-inline-block"></i>
                     </div>
                   </div>
-                  <h3 class="text-center">Rp Saldo</h3>
+                  <h3 class="text-center">Rp <?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING'], 0, ',', '.') : '0'; ?></h3>
                 </div>
                 <div class="table-responsive">
                   <table class="table table-de mb-0">
-                    <tbody>
-                      <tr>
-                        <td>CIC Token</td>
-                        <td><i class="icon-layers"></i> 3,258 CIC</td>
-                      </tr>
-                    </tbody>
+                    <?php
+                    $halaman_sekarang = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+                    $batas_per_halaman = 5;
+                    $batas_awal = ($halaman_sekarang - 1) * $batas_per_halaman;
+                    $query_transaksi = "SELECT * FROM transaksi LIMIT $batas_awal, $batas_per_halaman";
+                    $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+                    if ($result_transaksi) {
+                    ?>
+                      <tbody>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result_transaksi)) {
+                          $kelas_warna = '';
+                          if ($row['JENIS_TRANSAKSI'] == 'TRANSFER' || $row['JENIS_TRANSAKSI'] == 'TARIK TUNAI') {
+                            $kelas_warna = 'text-danger';
+                          } elseif ($row['JENIS_TRANSAKSI'] == 'MENABUNG') {
+                            $kelas_warna = 'text-success';
+                          }
+                        ?>
+                          <tr>
+                            <td class="<?= $kelas_warna ?>"><?= $row['JENIS_TRANSAKSI'] ?></td>
+                            <td><i class="icon-layers"></i> <?= $row['JUMLAH_TRANSAKSI'] ?></td>
+                          </tr>
+                        <?php
+                        }
+                        ?>
+                      </tbody>
                   </table>
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
+                      <?php
+                      $query_jumlah_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
+                      $result_jumlah_transaksi = mysqli_query($koneksi, $query_jumlah_transaksi);
+                      $row_jumlah = mysqli_fetch_assoc($result_jumlah_transaksi);
+                      $jumlah_halaman = ceil($row_jumlah['jumlah_transaksi'] / $batas_per_halaman);
+                      for ($halaman = 1; $halaman <= $jumlah_halaman; $halaman++) {
+                        echo "<li class='page-item " . ($halaman == $halaman_sekarang ? 'active' : '') . "'>";
+                        echo "<a class='page-link' href='?halaman=$halaman'>$halaman</a>";
+                        echo "</li>";
+                      }
+                      ?>
+                    </ul>
+                  </nav>
+                <?php
+                    } else {
+                      echo 'Error: ' . mysqli_error($koneksi);
+                    }
+                    mysqli_close($koneksi);
+                ?>
                 </div>
               </div>
             </div>

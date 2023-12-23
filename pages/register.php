@@ -12,8 +12,8 @@ session_start();
     <meta name="keywords" content="admin template, CryptoDash Cryptocurrency Dashboard Template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
     <meta name="author" content="ThemeSelection">
     <title>TUGAS BASDAT KELOMPOK 4</title>
-    <link rel="apple-touch-icon" href="app-assets/images/icons/1.jpg">
-    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/icons/1.jpg">
+    <link rel="apple-touch-icon" href="../app-assets/images/icons/1.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="../app-assets/images/icons/1.jpg">
     <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../app-assets/css/vendors.css">
     <link rel="stylesheet" type="text/css" href="../app-assets/vendors/css/forms/icheck/icheck.css">
