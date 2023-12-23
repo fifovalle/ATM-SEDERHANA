@@ -18,9 +18,88 @@ if (isset($_POST['kirim'])) {
     if (isset($_SESSION['ID_NASABAH']) && isset($_SESSION['ID_ATM'])) {
         $id_nasabah = $_SESSION['ID_NASABAH'];
         $id_atm = $_SESSION['ID_ATM'];
-
         $saldo_nasabah = $_SESSION['SALDO_REKENING'];
-        if (($jenis_transaksi == 'TRANSFER' || $jenis_transaksi == 'TARIK TUNAI') && $saldo_nasabah < $jumlah_transaksi) {
+
+        $query_check_norekening = "SELECT COUNT(*) AS jumlah FROM `nasabah` WHERE `NO_REKENING`='$no_rekening'";
+        $result_check_norekening = mysqli_query($koneksi, $query_check_norekening);
+        $row_check_norekening = mysqli_fetch_assoc($result_check_norekening);
+
+        if ($row_check_norekening['jumlah'] == 0) {
+            $_SESSION['alert'] = array(
+                'type' => 'error',
+                'message' => 'Nomor rekening tidak terdaftar.'
+            );
+            header('Location: ../index.php');
+            exit();
+        }
+
+        if (($jenis_transaksi == 'MENABUNG' || $jenis_transaksi == 'TARIK TUNAI') && $no_rekening != $_SESSION['NO_REKENING']) {
+            $_SESSION['alert'] = array(
+                'type' => 'error',
+                'message' => 'Nomor rekening tidak sesuai dengan akun Anda.'
+            );
+            header('Location: ../index.php');
+            exit();
+        }
+
+        if ($jenis_transaksi == 'TRANSFER') {
+            $query_check_transfer = "SELECT COUNT(*) AS jumlah FROM `nasabah` WHERE `NO_REKENING`='$no_rekening'";
+            $result_check_transfer = mysqli_query($koneksi, $query_check_transfer);
+            $row_check_transfer = mysqli_fetch_assoc($result_check_transfer);
+
+            if ($row_check_transfer['jumlah'] == 0) {
+                $_SESSION['alert'] = array(
+                    'type' => 'error',
+                    'message' => 'Nomor rekening tujuan transfer tidak terdaftar.'
+                );
+                header('Location: ../index.php');
+                exit();
+            }
+
+            $query_get_saldo_tujuan = "SELECT `SALDO_REKENING` FROM `nasabah` WHERE `NO_REKENING`='$no_rekening'";
+            $result_get_saldo_tujuan = mysqli_query($koneksi, $query_get_saldo_tujuan);
+            $saldo_tujuan = mysqli_fetch_assoc($result_get_saldo_tujuan)['SALDO_REKENING'];
+
+            if ($saldo_nasabah < $jumlah_transaksi) {
+                $_SESSION['alert'] = array(
+                    'type' => 'error',
+                    'message' => 'Saldo tidak mencukupi untuk transaksi ini.'
+                );
+                header('Location: ../index.php');
+                exit();
+            }
+
+            $saldo_nasabah -= $jumlah_transaksi;
+            $query_update_saldo_nasabah = "UPDATE `nasabah` SET `SALDO_REKENING`='$saldo_nasabah' WHERE `ID_NASABAH`='$id_nasabah'";
+            $result_update_saldo_nasabah = mysqli_query($koneksi, $query_update_saldo_nasabah);
+
+            $saldo_tujuan += $jumlah_transaksi;
+            $query_update_saldo_tujuan = "UPDATE `nasabah` SET `SALDO_REKENING`='$saldo_tujuan' WHERE `NO_REKENING`='$no_rekening'";
+            $result_update_saldo_tujuan = mysqli_query($koneksi, $query_update_saldo_tujuan);
+
+            $query_insert_transaksi = "INSERT INTO `transaksi` (`ID_ATM`, `ID_NASABAH`, `JENIS_TRANSAKSI`, `JUMLAH_TRANSAKSI`, `TANGGAL_DAN_WAKTU_TRANSAKSI`) 
+            VALUES ('$id_atm', '$id_nasabah', '$jenis_transaksi', '$jumlah_transaksi', NOW())";
+            $result_insert_transaksi = mysqli_query($koneksi, $query_insert_transaksi);
+
+            if ($result_update_saldo_nasabah && $result_update_saldo_tujuan && $result_insert_transaksi) {
+                $_SESSION['SALDO_REKENING'] = $saldo_nasabah;
+                $_SESSION['alert'] = array(
+                    'type' => 'success',
+                    'message' => 'Transaksi berhasil!'
+                );
+                header('Location: ../index.php');
+                exit();
+            } else {
+                $_SESSION['alert'] = array(
+                    'type' => 'error',
+                    'message' => 'Terjadi kesalahan saat memproses transaksi.'
+                );
+                header('Location: ../index.php');
+                exit();
+            }
+        }
+
+        if (($jenis_transaksi == 'TARIK TUNAI' || $jenis_transaksi == 'MENABUNG') && $saldo_nasabah < $jumlah_transaksi) {
             $_SESSION['alert'] = array(
                 'type' => 'error',
                 'message' => 'Saldo tidak mencukupi untuk transaksi ini.'
@@ -29,7 +108,7 @@ if (isset($_POST['kirim'])) {
             exit();
         }
 
-        if ($jenis_transaksi == 'TRANSFER' || $jenis_transaksi == 'TARIK TUNAI') {
+        if ($jenis_transaksi == 'TARIK TUNAI' || $jenis_transaksi == 'MENABUNG') {
             $saldo_nasabah -= $jumlah_transaksi;
         } elseif ($jenis_transaksi == 'MENABUNG') {
             $saldo_nasabah += $jumlah_transaksi;
