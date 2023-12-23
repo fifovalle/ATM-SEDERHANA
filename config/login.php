@@ -16,6 +16,7 @@ if (isset($_POST['masuk'])) {
     if ($hasil) {
         if (mysqli_num_rows($hasil) == 1) {
             $data_nasabah_atm = mysqli_fetch_assoc($hasil);
+            $_SESSION['NO_REKENING'] = $data_nasabah_atm['NO_REKENING'];
             $_SESSION['JUMLAH_TRANSAKSI'] = $data_nasabah_atm['JUMLAH_TRANSAKSI'];
             $_SESSION['TANGGAL_DAN_WAKTU_TRANSAKSI']  = $data_nasabah_atm['TANGGAL_DAN_WAKTU_TRANSAKSI'];
             $_SESSION['ID_ATM'] = $data_nasabah_atm['ID_ATM'];

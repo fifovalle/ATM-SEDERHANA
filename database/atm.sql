@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2023 at 11:38 PM
+-- Generation Time: Dec 23, 2023 at 07:04 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -58,10 +58,9 @@ CREATE TABLE `nasabah` (
 --
 
 CREATE TABLE `transaksi` (
-  `ID_TRANSAKSI` int(11) NOT NULL,
   `ID_ATM` int(11) NOT NULL,
   `ID_NASABAH` int(11) NOT NULL,
-  `JENIS_TRANSAKSI` enum('TRANSFER','TARIK_TUNAI','MENABUNG') NOT NULL,
+  `JENIS_TRANSAKSI` enum('TRANSFER','TARIK TUNAI','MENABUNG') NOT NULL,
   `JUMLAH_TRANSAKSI` int(10) NOT NULL,
   `TANGGAL_DAN_WAKTU_TRANSAKSI` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -86,9 +85,8 @@ ALTER TABLE `nasabah`
 -- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`ID_TRANSAKSI`),
-  ADD UNIQUE KEY `ID_ATM` (`ID_ATM`),
-  ADD UNIQUE KEY `ID_NASABAH` (`ID_NASABAH`);
+  ADD KEY `transaksi_ibfk_1` (`ID_ATM`),
+  ADD KEY `transaksi_ibfk_2` (`ID_NASABAH`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -98,19 +96,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `atm`
 --
 ALTER TABLE `atm`
-  MODIFY `ID_ATM` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_ATM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  MODIFY `ID_NASABAH` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `transaksi`
---
-ALTER TABLE `transaksi`
-  MODIFY `ID_TRANSAKSI` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_NASABAH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables

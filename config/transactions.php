@@ -43,6 +43,15 @@ if (isset($_POST['kirim'])) {
         }
 
         if ($jenis_transaksi == 'TRANSFER') {
+            if ($no_rekening == $_SESSION['NO_REKENING']) {
+                $_SESSION['alert'] = array(
+                    'type' => 'error',
+                    'message' => 'Transfer tidak dapat dilakukan ke akun anda.'
+                );
+                header('Location: ../index.php');
+                exit();
+            }
+
             $query_check_transfer = "SELECT COUNT(*) AS jumlah FROM `nasabah` WHERE `NO_REKENING`='$no_rekening'";
             $result_check_transfer = mysqli_query($koneksi, $query_check_transfer);
             $row_check_transfer = mysqli_fetch_assoc($result_check_transfer);
@@ -99,16 +108,7 @@ if (isset($_POST['kirim'])) {
             }
         }
 
-        if (($jenis_transaksi == 'TARIK TUNAI' || $jenis_transaksi == 'MENABUNG') && $saldo_nasabah < $jumlah_transaksi) {
-            $_SESSION['alert'] = array(
-                'type' => 'error',
-                'message' => 'Saldo tidak mencukupi untuk transaksi ini.'
-            );
-            header('Location: ../index.php');
-            exit();
-        }
-
-        if ($jenis_transaksi == 'TARIK TUNAI' || $jenis_transaksi == 'MENABUNG') {
+        if ($jenis_transaksi == 'TARIK TUNAI') {
             $saldo_nasabah -= $jumlah_transaksi;
         } elseif ($jenis_transaksi == 'MENABUNG') {
             $saldo_nasabah += $jumlah_transaksi;
