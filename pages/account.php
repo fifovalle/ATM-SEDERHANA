@@ -76,8 +76,10 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                           <div class="col-12 col-md-4">
                             <p class="text-bold-700 text-uppercase mb-0">Transaksi</p>
                             <?php
-                            $query_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
+                            $idNasabah = $_SESSION['ID_NASABAH'];
+                            $query_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi WHERE ID_NASABAH = '$idNasabah'";
                             $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+
                             if ($result_transaksi) {
                               $row = mysqli_fetch_assoc($result_transaksi);
                               $jumlah_transaksi = $row['jumlah_transaksi'];
@@ -167,8 +169,12 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                     $halaman_sekarang = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
                     $batas_per_halaman = 5;
                     $batas_awal = ($halaman_sekarang - 1) * $batas_per_halaman;
-                    $query_transaksi = "SELECT * FROM transaksi LIMIT $batas_awal, $batas_per_halaman";
+
+                    $idNasabah = $_SESSION['ID_NASABAH']; // Ambil ID Nasabah dari sesi
+                    $query_transaksi = "SELECT * FROM transaksi WHERE ID_NASABAH = '$idNasabah' LIMIT $batas_awal, $batas_per_halaman";
+
                     $result_transaksi = mysqli_query($koneksi, $query_transaksi);
+
                     if ($result_transaksi) {
                     ?>
                       <tbody>
@@ -193,7 +199,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                   <nav aria-label="Page navigation example">
                     <ul class="pagination" style="align-items: center; justify-content: center; display: flex;">
                       <?php
-                      $query_jumlah_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi";
+                      $query_jumlah_transaksi = "SELECT COUNT(*) as jumlah_transaksi FROM transaksi WHERE ID_NASABAH = '$idNasabah'";
                       $result_jumlah_transaksi = mysqli_query($koneksi, $query_jumlah_transaksi);
                       $row_jumlah = mysqli_fetch_assoc($result_jumlah_transaksi);
                       $jumlah_halaman = ceil($row_jumlah['jumlah_transaksi'] / $batas_per_halaman);
