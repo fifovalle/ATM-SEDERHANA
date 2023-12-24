@@ -33,13 +33,44 @@ if (isset($_POST['kirim'])) {
             exit();
         }
 
-        if (($jenis_transaksi == 'MENABUNG' || $jenis_transaksi == 'TARIK TUNAI') && $no_rekening != $_SESSION['NO_REKENING']) {
-            $_SESSION['alert'] = array(
-                'type' => 'error',
-                'message' => 'Nomor rekening tidak sesuai dengan akun Anda.'
-            );
-            header('Location: ../index.php');
-            exit();
+        if ($jenis_transaksi == 'TARIK TUNAI') {
+            if ($no_rekening != $_SESSION['NO_REKENING']) {
+                $_SESSION['alert'] = array(
+                    'type' => 'error',
+                    'message' => 'Anda hanya dapat menarik tunai dari akun Anda sendiri.'
+                );
+                header('Location: ../index.php');
+                exit();
+            }
+
+            $saldo_nasabah -= $jumlah_transaksi;
+
+            $query_update_saldo_nasabah = "UPDATE `nasabah` SET `SALDO_REKENING`='$saldo_nasabah' WHERE `ID_NASABAH`='$id_nasabah'";
+            $result_update_saldo_nasabah = mysqli_query($koneksi, $query_update_saldo_nasabah);
+
+            $query_update_saldo_atm = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA`='$saldo_nasabah' WHERE `ID_ATM`='$id_atm'";
+            $result_update_saldo_atm = mysqli_query($koneksi, $query_update_saldo_atm);
+
+            $query_insert_transaksi = "INSERT INTO `transaksi` (`ID_ATM`, `ID_NASABAH`, `JENIS_TRANSAKSI`, `JUMLAH_TRANSAKSI`, `TANGGAL_DAN_WAKTU_TRANSAKSI`) 
+            VALUES ('$id_atm', '$id_nasabah', '$jenis_transaksi', '$jumlah_transaksi', NOW())";
+            $result_insert_transaksi = mysqli_query($koneksi, $query_insert_transaksi);
+
+            if ($result_update_saldo_nasabah && $result_insert_transaksi && $result_update_saldo_atm) {
+                $_SESSION['SALDO_REKENING'] = $saldo_nasabah;
+                $_SESSION['alert'] = array(
+                    'type' => 'success',
+                    'message' => 'Transaksi berhasil!'
+                );
+                header('Location: ../index.php');
+                exit();
+            } else {
+                $_SESSION['alert'] = array(
+                    'type' => 'error',
+                    'message' => 'Terjadi kesalahan saat memproses transaksi.'
+                );
+                header('Location: ../index.php');
+                exit();
+            }
         }
 
         if ($jenis_transaksi == 'TRANSFER') {
@@ -86,11 +117,21 @@ if (isset($_POST['kirim'])) {
             $query_update_saldo_tujuan = "UPDATE `nasabah` SET `SALDO_REKENING`='$saldo_tujuan' WHERE `NO_REKENING`='$no_rekening'";
             $result_update_saldo_tujuan = mysqli_query($koneksi, $query_update_saldo_tujuan);
 
+            $query_get_id_atm_tujuan = "SELECT `ID_ATM` FROM `atm` WHERE `LOKASI`='lokasi_atm_tujuan'";
+            $result_get_id_atm_tujuan = mysqli_query($koneksi, $query_get_id_atm_tujuan);
+            $id_atm_tujuan = mysqli_fetch_assoc($result_get_id_atm_tujuan)['ID_ATM'];
+
+            $query_update_saldo_atm_pengirim = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA` = `JUMLAH_UANG_YANG_TERSEDIA` - '$jumlah_transaksi' WHERE `ID_ATM`='$id_atm'";
+            $result_update_saldo_atm_pengirim = mysqli_query($koneksi, $query_update_saldo_atm_pengirim);
+
+            $query_update_saldo_atm_penerima = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA` = `JUMLAH_UANG_YANG_TERSEDIA` + '$jumlah_transaksi' WHERE `ID_ATM`='$id_atm_tujuan'";
+            $result_update_saldo_atm_penerima = mysqli_query($koneksi, $query_update_saldo_atm_penerima);
+
             $query_insert_transaksi = "INSERT INTO `transaksi` (`ID_ATM`, `ID_NASABAH`, `JENIS_TRANSAKSI`, `JUMLAH_TRANSAKSI`, `TANGGAL_DAN_WAKTU_TRANSAKSI`) 
             VALUES ('$id_atm', '$id_nasabah', '$jenis_transaksi', '$jumlah_transaksi', NOW())";
             $result_insert_transaksi = mysqli_query($koneksi, $query_insert_transaksi);
 
-            if ($result_update_saldo_nasabah && $result_update_saldo_tujuan && $result_insert_transaksi) {
+            if ($result_update_saldo_nasabah && $result_update_saldo_tujuan && $result_insert_transaksi && $result_update_saldo_atm_pengirim && $result_update_saldo_atm_penerima) {
                 $_SESSION['SALDO_REKENING'] = $saldo_nasabah;
                 $_SESSION['alert'] = array(
                     'type' => 'success',
@@ -106,39 +147,6 @@ if (isset($_POST['kirim'])) {
                 header('Location: ../index.php');
                 exit();
             }
-        }
-
-        if ($jenis_transaksi == 'TARIK TUNAI') {
-            $saldo_nasabah -= $jumlah_transaksi;
-        } elseif ($jenis_transaksi == 'MENABUNG') {
-            $saldo_nasabah += $jumlah_transaksi;
-        }
-
-        $query_update_saldo_nasabah = "UPDATE `nasabah` SET `SALDO_REKENING`='$saldo_nasabah' WHERE `ID_NASABAH`='$id_nasabah'";
-        $result_update_saldo_nasabah = mysqli_query($koneksi, $query_update_saldo_nasabah);
-
-        $query_update_saldo_atm = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA`='$saldo_nasabah' WHERE `ID_ATM`='$id_atm'";
-        $result_update_saldo_atm = mysqli_query($koneksi, $query_update_saldo_atm);
-
-        $query_insert_transaksi = "INSERT INTO `transaksi` (`ID_ATM`, `ID_NASABAH`, `JENIS_TRANSAKSI`, `JUMLAH_TRANSAKSI`, `TANGGAL_DAN_WAKTU_TRANSAKSI`) 
-        VALUES ('$id_atm', '$id_nasabah', '$jenis_transaksi', '$jumlah_transaksi', NOW())";
-        $result_insert_transaksi = mysqli_query($koneksi, $query_insert_transaksi);
-
-        if ($result_update_saldo_nasabah && $result_update_saldo_atm && $result_insert_transaksi) {
-            $_SESSION['SALDO_REKENING'] = $saldo_nasabah;
-            $_SESSION['alert'] = array(
-                'type' => 'success',
-                'message' => 'Transaksi berhasil!'
-            );
-            header('Location: ../index.php');
-            exit();
-        } else {
-            $_SESSION['alert'] = array(
-                'type' => 'error',
-                'message' => 'Terjadi kesalahan saat memproses transaksi.'
-            );
-            header('Location: ../index.php');
-            exit();
         }
     } else {
         $_SESSION['alert'] = array(
