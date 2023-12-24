@@ -69,7 +69,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                 $halaman_sekarang = isset($_GET['halaman']) ? $_GET['halaman'] : 1;
                 $offset = ($halaman_sekarang - 1) * $baris_per_halaman;
 
-                $idNasabah = $_SESSION['ID_NASABAH']; // Ambil ID Nasabah dari sesi
+                $idNasabah = $_SESSION['ID_NASABAH'];
                 $query_transaksi = "SELECT transaksi.JENIS_TRANSAKSI, transaksi.JUMLAH_TRANSAKSI, transaksi.TANGGAL_DAN_WAKTU_TRANSAKSI, nasabah.NAMA, nasabah.NO_REKENING, atm.JUMLAH_UANG_YANG_TERSEDIA
                             FROM transaksi
                             JOIN nasabah ON transaksi.ID_NASABAH = nasabah.ID_NASABAH
