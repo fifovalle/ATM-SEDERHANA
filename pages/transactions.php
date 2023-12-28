@@ -56,7 +56,7 @@ if (!isset($_SESSION['ID_NASABAH'])) {
           </div>
         </div>
         <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="wallet.html">Layanan</a></div>
+          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" href="wallet.php">Dompet Saya</a></div>
         </div>
       </div>
       <div class="row">
