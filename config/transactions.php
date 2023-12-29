@@ -6,6 +6,15 @@ if (isset($_POST['kirim'])) {
     $jumlah_transaksi = $_POST['jumlah_transaksi'];
     $jenis_transaksi = $_POST['jenis_transaksi'];
 
+    if ($jumlah_transaksi < 10000) {
+        $_SESSION['alert'] = array(
+            'type' => 'error',
+            'message' => 'Jumlah transaksi minimal adalah 10,000.'
+        );
+        header('Location: ../index.php');
+        exit();
+    }
+
     if (empty($jenis_transaksi)) {
         $_SESSION['alert'] = array(
             'type' => 'error',
@@ -129,6 +138,8 @@ if (isset($_POST['kirim'])) {
 
             $query_update_saldo_atm_pengirim = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA` = `JUMLAH_UANG_YANG_TERSEDIA` - '$jumlah_transaksi' WHERE `ID_ATM`='$id_atm'";
             $result_update_saldo_atm_pengirim = mysqli_query($koneksi, $query_update_saldo_atm_pengirim);
+
+            $query_get_id_atm_tujuan = "SELECT `ID_ATM` FROM `nasabah` WHERE `NO_REKENING`='$no_rekening'";
 
             $query_update_saldo_atm_penerima = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA` = `JUMLAH_UANG_YANG_TERSEDIA` + '$jumlah_transaksi' WHERE `ID_ATM`='$id_atm_tujuan'";
             $result_update_saldo_atm_penerima = mysqli_query($koneksi, $query_update_saldo_atm_penerima);
