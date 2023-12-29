@@ -34,6 +34,7 @@ if (isset($_POST['kirim'])) {
         }
 
         if ($jenis_transaksi == 'TARIK TUNAI') {
+
             if ($no_rekening != $_SESSION['NO_REKENING']) {
                 $_SESSION['alert'] = array(
                     'type' => 'error',
@@ -125,10 +126,6 @@ if (isset($_POST['kirim'])) {
             $saldo_tujuan += $jumlah_transaksi;
             $query_update_saldo_tujuan = "UPDATE `nasabah` SET `SALDO_REKENING`='$saldo_tujuan' WHERE `NO_REKENING`='$no_rekening'";
             $result_update_saldo_tujuan = mysqli_query($koneksi, $query_update_saldo_tujuan);
-
-            $query_get_id_atm_tujuan = "SELECT `ID_ATM` FROM `atm` WHERE `LOKASI`='lokasi_atm_tujuan'";
-            $result_get_id_atm_tujuan = mysqli_query($koneksi, $query_get_id_atm_tujuan);
-            $id_atm_tujuan = mysqli_fetch_assoc($result_get_id_atm_tujuan)['ID_ATM'];
 
             $query_update_saldo_atm_pengirim = "UPDATE `atm` SET `JUMLAH_UANG_YANG_TERSEDIA` = `JUMLAH_UANG_YANG_TERSEDIA` - '$jumlah_transaksi' WHERE `ID_ATM`='$id_atm'";
             $result_update_saldo_atm_pengirim = mysqli_query($koneksi, $query_update_saldo_atm_pengirim);
