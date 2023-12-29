@@ -117,19 +117,19 @@ if (!isset($_SESSION['ID_NASABAH'])) {
                         <form class="form-horizontal form-user-profile row mt-2" action="../config/edit-account.php" method="post" id="hapusAkunForm">
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" class="form-control" id="first-name" placeholder="Nama Nasabah" name="nama" value="<?php echo $nama_nasabah; ?>" required autofocus>
+                              <input type="text" class="form-control" id="first-name" placeholder="Nama Nasabah" name="nama" value="<?php echo $nama_nasabah; ?>" required autofocus autocomplete="off">
                               <label for="first-name">Nama Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" name="alamat_nasabah" placeholder="Alamat Nasabah" class="form-control" id="user-name" value="<?php echo $alamat_nasabah; ?>" required autofocus>
+                              <input type="text" name="alamat_nasabah" placeholder="Alamat Nasabah" class="form-control" id="user-name" value="<?php echo $alamat_nasabah; ?>" required autofocus autocomplete="off">
                               <label for="user-name">Alamat Nasabah</label>
                             </fieldset>
                           </div>
                           <div class="col-6">
                             <fieldset class="form-label-group">
-                              <input type="text" name="kata_sandi" class="form-control" id="new-password" placeholder="Enter Password" value="<?php echo $kata_sandi_nasabah; ?>" required autofocus>
+                              <input type="text" name="kata_sandi" class="form-control" id="new-password" placeholder="Enter Password" value="<?php echo $kata_sandi_nasabah; ?>" required autofocus autocomplete="off">
                               <label for="new-password">Kata Sandi Nasabah</label>
                             </fieldset>
                           </div>
