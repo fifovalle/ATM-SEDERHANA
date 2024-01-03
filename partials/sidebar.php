@@ -6,7 +6,7 @@
             <?php
             $url_sekarang = $_SERVER['REQUEST_URI'];
             ?>
-            <li <?php echo $url_sekarang == '/TUBES%20BASIS%20DATA/' ? 'class="active"' : ''; ?>>
+            <li <?php echo $url_sekarang == '/ATM-SEDERHANA/' ? 'class="active"' : ''; ?>>
                 <a href="http://localhost/ATM-SEDERHANA/">
                     <i class="icon-grid"></i>
                     <span class="menu-title">Beranda</span>
