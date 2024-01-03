@@ -1,6 +1,6 @@
 <div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
     <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block" href="http://localhost/ATM-SEDERHANA/">
-            <h1 style="font-size: 20px; color: white; margin-left: 6px;">KEL 4</h1>
+            <h1 style="font-size: 20px; color: white; margin-left: 15px;">ATM</h1>
         </a>
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <?php
