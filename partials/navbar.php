@@ -13,7 +13,7 @@
                 <ul class="nav navbar-nav float-right">
                     <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-id"></i><span class="selected-language"></span></a>
                     </li>
-                    <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="pages/wallet.php"><i class="ficon icon-wallet"></i></a></li>
+                    <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="http://localhost/ATM-SEDERHANA/pages/wallet.php"><i class="ficon icon-wallet"></i></a></li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                             <span class="avatar avatar-online"><img src="http://localhost/ATM-SEDERHANA/assets/img/1.jpg" alt="avatar">
                             </span><span class="mr-1">Rp<span class="user-name text-bold-700"><?php echo isset($_SESSION['SALDO_REKENING']) ? number_format($_SESSION['SALDO_REKENING']) : '0'; ?></span></span></a>
