@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2023 at 07:04 AM
+-- Generation Time: Jan 03, 2024 at 08:01 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -35,6 +35,13 @@ CREATE TABLE `atm` (
   `JUMLAH_UANG_YANG_TERSEDIA` int(11) NOT NULL,
   `LOKASI` varchar(225) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `atm`
+--
+
+INSERT INTO `atm` (`ID_ATM`, `JENIS_ATM`, `TANGGAL_PEMBUATAN_ATM`, `SALDO_AWAL`, `JUMLAH_UANG_YANG_TERSEDIA`, `LOKASI`) VALUES
+(62, 'SILVER', '2024-01-02 13:24:29', 50000, 50000, 'Cimahi');
 
 -- --------------------------------------------------------
 
@@ -96,13 +103,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `atm`
 --
 ALTER TABLE `atm`
-  MODIFY `ID_ATM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `ID_ATM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  MODIFY `ID_NASABAH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `ID_NASABAH` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- Constraints for dumped tables
