@@ -53,13 +53,6 @@ Proyek ATM Sederhana ini telah selesai dikembangkan menggunakan Bootstrap, MySQL
 - [x] Jumlah uang yang dimiliki
 - [x] Riwayat transaksi
 
-## Rencana Pengembangan
-
-- Menambahkan sistem otentikasi pengguna
-- Menyempurnakan fungsi pendaftaran pengguna
-- Menambahkan fitur riwayat transaksi grafik
-- Meningkatkan keamanan aplikasi
-
 ## Hubungi Saya 📬
 
 Jika Anda ingin berdiskusi, bekerja sama, atau sekadar berkenalan, hubungi saya melalui [email](mailto:fifanaufal10@gmail.com) atau [Whatsapp](https://wa.me/+6281223652490).
