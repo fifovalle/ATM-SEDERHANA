@@ -1,5 +1,12 @@
 ## Proyek ATM Sederhana dengan Bootstrap, MySQL, dan PHP
 
+![Screenshot 2024-01-03 135817](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/c231bbad-f090-404a-99bb-2c0075deaad0)
+![Screenshot 2024-01-03 135823](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/5690249a-89fb-46c0-a9e1-a0fca76467f1)
+![Screenshot 2024-01-03 135935](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/77c36a4d-6097-4bee-9056-658901d55590)
+![Screenshot 2024-01-03 135838](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/fead46d2-02e7-4ef5-ade1-8731edfe5367)
+![Screenshot 2024-01-03 135942](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/30fc4543-a79b-4a6f-8526-28ea85c40b1e)
+![Screenshot 2024-01-03 135947](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/a8a915d5-1be1-4ef1-adc1-56e9fbfc426a)
+
 Selamat datang di Repositori Proyek ATM Sederhana! Proyek ini sedang dalam pengembangan menggunakan Bootstrap, MySQL, dan PHP untuk menciptakan platform ATM dengan antarmuka web.
 
 ## Tentang Proyek
