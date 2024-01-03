@@ -11,7 +11,7 @@ session_start();
     <meta name="description" content="CryptoDash admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities with bitcoin dashboard.">
     <meta name="keywords" content="admin template, CryptoDash Cryptocurrency Dashboard Template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
     <meta name="author" content="ThemeSelection">
-    <title>TUGAS BASDAT KELOMPOK 4</title>
+    <title>ATM SEDERHANA</title>
     <link rel="apple-touch-icon" href="../app-assets/images/icons/1.jpg">
     <link rel="shortcut icon" type="image/x-icon" href="../app-assets/images/icons/1.jpg">
     <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700" rel="stylesheet">
@@ -36,7 +36,7 @@ session_start();
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0 text-center d-none d-md-block">
                             <div class="border-grey border-lighten-3 m-0 box-shadow-0 card-account-left height-400">
-                                <h1 style="color: white; padding-top: 175px; font-weight: bold">KELOMPOK 4</h1>
+                                <h1 style="color: white; padding-top: 175px; font-weight: bold">ATM SEDERHANA</h1>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0">
