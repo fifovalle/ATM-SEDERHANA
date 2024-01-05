@@ -32,7 +32,7 @@ Proyek ATM Sederhana ini telah selesai dikembangkan menggunakan Bootstrap, MySQL
 2. Impor skema basis data dari folder `database` ke MySQL.
 
    ```
-   mysql -u username -p nama_database < database/atm_sederhana.sql
+   mysql -u username -p nama_database < database/atm.sql
    ```
 
 3. Konfigurasi koneksi basis data. Edit file `config.php` di dalam direktori `includes` sesuai pengaturan MySQL.
