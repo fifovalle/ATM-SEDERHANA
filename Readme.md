@@ -1,4 +1,36 @@
-## Proyek ATM Sederhana dengan Bootstrap, MySQL, dan PHP
+**Selamat Datang di "Atm Sederhana" Website! 🚀**
+
+Terima kasih telah mengunjungi halaman ini untuk melihat preview proyek terbaru saya dalam dunia pengembangan perangkat lunak. Saya sangat antusias untuk membagikan hasil kerja dan keterampilan saya dengan Anda.
+
+### 🚧 Status Proyek
+
+- **Status:** Selesai
+- **Tanggal Rilis Diharapkan:** Desember 2023
+
+### 🚀 Fitur Utama
+
+- [x] Pendaftaran pengguna
+- [x] Login pengguna
+- [x] Penarikan tunai
+- [x] Transfer antar akun
+- [x] Menabung
+- [x] Edit nasabah
+- [x] Hapus nasabah
+- [x] Grafik transaksi
+- [x] Saldo awal
+- [x] Jumlah uang yang dimiliki
+- [x] Riwayat transaksi
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Frontend:** Bootstrap (HTML, CSS)
+- **Backend:** PHP
+- **Database:** MySQL
+- **Alat Pengembangan:** Visual Studio Code, Git.
+
+## 📷 Preview Halaman
+
+Berikut adalah beberapa cuplikan tampilan halaman website :
 
 ![Screenshot 2024-01-03 135817](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/c231bbad-f090-404a-99bb-2c0075deaad0)
 ![Screenshot 2024-01-03 135823](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/5690249a-89fb-46c0-a9e1-a0fca76467f1)
@@ -7,21 +39,15 @@
 ![Screenshot 2024-01-03 135942](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/30fc4543-a79b-4a6f-8526-28ea85c40b1e)
 ![Screenshot 2024-01-03 135947](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/a8a915d5-1be1-4ef1-adc1-56e9fbfc426a)
 
-Selamat datang di Repositori Proyek ATM Sederhana! Proyek ini dibuat menggunakan Bootstrap, MySQL, dan PHP untuk menciptakan platform ATM dengan antarmuka web.
+## 📬 Kontak
 
-## Tentang Proyek
+Jika Anda ingin berdiskusi, bekerja sama, atau sekadar berkenalan, hubungi saya melalui [email](mailto:fifanaufal10@gmail.com) atau [Whatsapp](https://wa.me/+6281223652490).
 
-⚠️ **Status Proyek:** Selesai
+### 🙏 Kontribusi
 
-Proyek ATM Sederhana ini telah selesai dikembangkan menggunakan Bootstrap, MySQL, dan PHP untuk menciptakan platform ATM dengan antarmuka web.
+Kontribusi dan umpan balik dari komunitas sangat dihargai. Jika Anda ingin berkontribusi, silakan buat _pull request_ atau buka _issue_.
 
-## Teknologi yang Digunakan
-
-- **Frontend:** Bootstrap (HTML, CSS)
-- **Backend:** PHP
-- **Database:** MySQL
-
-## Instalasi
+### 👨‍💻 Cara Menjalankan Proyek
 
 1. Clone repositori ini ke direktori web server Anda.
 
@@ -45,24 +71,6 @@ Proyek ATM Sederhana ini telah selesai dikembangkan menggunakan Bootstrap, MySQL
    ```
 
 4. Buka aplikasi melalui web browser.
-
-## Fitur yang Tersedia
-
-- [x] Pendaftaran pengguna
-- [x] Login pengguna
-- [x] Penarikan tunai
-- [x] Transfer antar akun
-- [x] Menabung
-- [x] Edit nasabah
-- [x] Hapus nasabah
-- [x] Grafik transaksi
-- [x] Saldo awal
-- [x] Jumlah uang yang dimiliki
-- [x] Riwayat transaksi
-
-## Hubungi Saya 📬
-
-Jika Anda ingin berdiskusi, bekerja sama, atau sekadar berkenalan, hubungi saya melalui [email](mailto:fifanaufal10@gmail.com) atau [Whatsapp](https://wa.me/+6281223652490).
 
 Terima kasih atas dukungan dan kunjungan Anda! 🌟
 
