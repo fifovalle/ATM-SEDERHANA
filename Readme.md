@@ -30,7 +30,7 @@ Terima kasih telah mengunjungi halaman ini untuk melihat preview proyek terbaru 
 
 ## 📷 Preview Halaman
 
-Berikut adalah beberapa cuplikan tampilan halaman website :
+Berikut adalah beberapa tampilan halaman website :
 
 ![Screenshot 2024-01-03 135817](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/c231bbad-f090-404a-99bb-2c0075deaad0)
 ![Screenshot 2024-01-03 135823](https://github.com/fifovalle/ATM-SEDERHANA/assets/90078068/5690249a-89fb-46c0-a9e1-a0fca76467f1)
@@ -41,7 +41,7 @@ Berikut adalah beberapa cuplikan tampilan halaman website :
 
 ## 📬 Kontak
 
-Jika Anda ingin berdiskusi, bekerja sama, atau sekadar berkenalan, hubungi saya melalui [email](mailto:fifanaufal10@gmail.com) atau [Whatsapp](https://wa.me/+6281223652490).
+Jika Anda ingin berdiskusi, bekerja sama, atau sekadar berkenalan, hubungi saya melalui [email](mailto:fifanaufal10@gmail.com) atau [Whatsapp](https://wa.me/+6282318334287).
 
 ### 🙏 Kontribusi
 
